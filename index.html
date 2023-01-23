@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css"/>
+  <script src="node_modules/leaflet/dist/leaflet.js"></script>
+  <script src="dist/leaflet-geowiki.js"></script>
+  <style>
+#map { position: absolute; left: 0; right: 0; top: 0; bottom: 0 }
+  </style>
+</head>
+<body>
+  <div id='map'></div>
+</body>
+<script>
+// Create Leaflet map object
+var map = L.map('map').setView([ 47.0835225, 15.4600919 ], 18)
+
+// Show OSM map background
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+// Initialize Geowiki viewer
+var geowiki = new LeafletGeowiki({
+  source: 'data.osm', // Overpass API URL, .osm or .osm.bz2 file
+  style: 'example.yaml'
+}).addTo(map)
+</script>
+</html>
