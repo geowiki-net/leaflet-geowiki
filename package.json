@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/plepe/leaflet-geowiki#readme",
   "dependencies": {
-    "overpass-frontend": "^3.1.2",
+    "overpass-frontend": "^3.1.2"
   },
   "devDependencies": {
     "browserify": "^17.0.0",
