@@ -1,17 +1,14 @@
 /* global openstreetbrowserPrefix */
 /* eslint camelcase: 0 */
-var OpenStreetBrowserLoader = require('./OpenStreetBrowserLoader')
 var OverpassLayer = require('overpass-layer')
 const isTrue = require('overpass-layer/src/isTrue')
 var OverpassLayerList = require('overpass-layer').List
 var queryString = require('query-string')
 
 var CategoryBase = require('./CategoryBase')
-var state = require('./state')
 var tabs = require('modulekit-tabs')
 var markers = require('./markers')
-var maki = require('./maki')
-var qs = require('sheet-router/qs')
+var queryString = require('query-string')
 const ObjectDisplay = require('./ObjectDisplay')
 
 const showMore = require('./showMore')
@@ -64,9 +61,9 @@ var defaultValues = {
   }
 }
 
-CategoryOverpass.prototype = Object.create(CategoryBase.prototype)
-CategoryOverpass.prototype.constructor = CategoryOverpass
-function CategoryOverpass (options, data, repository) {
+LeafletGeowiki.prototype = Object.create(CategoryBase.prototype)
+LeafletGeowiki.prototype.constructor = LeafletGeowiki
+function LeafletGeowiki (options, data, repository) {
   var p
 
   CategoryBase.call(this, options, data, repository)
@@ -106,6 +103,7 @@ function CategoryOverpass (options, data, repository) {
   data.stylesNoAutoShow = [ 'selected' ]
   data.updateAssets = this.updateAssets.bind(this)
   data.layouts.popup = () => null
+  data.overpassFrontend = options.overpassFrontend
 
   this.layer = new OverpassLayer(data)
 
@@ -143,8 +141,6 @@ function CategoryOverpass (options, data, repository) {
   )
 
 
-  call_hooks('category-overpass-init', this)
-
   var p = document.createElement('div')
   p.className = 'loadingIndicator'
   p.innerHTML = '<i class="fa fa-spinner fa-pulse fa-fw"></i><span class="sr-only">' + lang('loading') + '</span>'
@@ -163,67 +159,18 @@ function CategoryOverpass (options, data, repository) {
 
     this.dom.appendChild(this.domStatus)
   }
-
-  register_hook('state-get', function (state) {
-    if (this.isOpen) {
-      if (state.categories) {
-        state.categories += ','
-      } else {
-        state.categories = ''
-      }
-
-      let id = this.id
-
-      let param = {}
-      this.emit('stateGet', param)
-
-      for (var k in param) {
-        if (!param[k]) {
-          delete param[k]
-        }
-      }
-
-      if (param && Object.keys(param).length) {
-        id += '[' + queryString.stringify(param) + ']'
-      }
-
-      state.categories += id
-    }
-  }.bind(this))
-
-  register_hook('state-apply', function (state) {
-    if (!('categories' in state)) {
-      return
-    }
-
-    let list = state.categories.split(',')
-    let found = list.filter(id => {
-      let m = id.match(/^([0-9A-Z_-]+)(\[(.*)\])/i)
-      if (m) {
-        id = m[1]
-      }
-
-      return id === this.id
-    }).length
-
-    if (!found) {
-      this.close()
-    }
-
-    // opening categories is handled by src/categories.js
-  }.bind(this))
 }
 
-CategoryOverpass.prototype.setParam = function (param) {
+LeafletGeowiki.prototype.setParam = function (param) {
   this.emit('setParam', param)
   this._applyParam(param)
 }
 
-CategoryOverpass.prototype._applyParam = function (param) {
+LeafletGeowiki.prototype._applyParam = function (param) {
   this.emit('applyParam', param)
 }
 
-CategoryOverpass.prototype.updateAssets = function (div) {
+LeafletGeowiki.prototype.updateAssets = function (div) {
   var imgs = div.getElementsByTagName('img')
   for (var i = 0; i < imgs.length; i++) {
     let img = imgs[i]
@@ -231,30 +178,16 @@ CategoryOverpass.prototype.updateAssets = function (div) {
     // TODO: 'src' is deprecated, use only data-src
     var src = img.getAttribute('src') || img.getAttribute('data-src')
     if (src === null) {
-    } else if (src.match(/^(maki|temaki):.*/)) {
+    }
 
-      /* HACK for temaki icons: as some icons are larger than the default 15px, force  size to 15px. */
-      if (src.match(/^temaki:/) && !img.hasAttribute('width') && !img.hasAttribute('height')) {
-        img.setAttribute('width', '15')
-        img.setAttribute('height', '15')
-      }
-
-      let m = src.match(/^(maki|temaki):([a-z0-9-_]*)(?:\?(.*))?$/)
-      if (m) {
-        maki(m[1], m[2], m[3] ? qs(m[3]) : {}, function (err, result) {
-          if (err === null) {
-            img.setAttribute('src', result)
-          }
-        })
-      }
-    } else if (src.match(/^(marker):.*/)) {
+    else if (src.match(/^(marker):.*/)) {
       let m = src.match(/^(marker):([a-z0-9-_]*)(?:\?(.*))?$/)
       if (m) {
         let span = document.createElement('span')
         img.parentNode.insertBefore(span, img)
         img.parentNode.removeChild(img)
         i--
-        let param = m[3] ? qs(m[3]) : {}
+        let param = m[3] ? queryString.stringify(m[3]) : {}
 
         if (param.styles) {
           let newParam = { styles: param.styles }
@@ -272,30 +205,15 @@ CategoryOverpass.prototype.updateAssets = function (div) {
 
         span.innerHTML = markers[m[2]](param)
       }
-    } else if (!src.match(/^(https?:|data:|\.|\/)/)) {
-      img.setAttribute('src', (typeof openstreetbrowserPrefix === 'undefined' ? './' : openstreetbrowserPrefix) +
-      'asset.php?repo=' + this.options.repositoryId + '&file=' + encodeURIComponent(img.getAttribute('data-src') || img.getAttribute('src')))
     }
   }
 }
 
-CategoryOverpass.prototype.load = function (callback) {
-  OpenStreetBrowserLoader.getTemplate('popupBody', this.options, function (err, template) {
-    if (err) {
-      console.log("can't load popupBody.html")
-    } else {
-      this.popupBodyTemplate = template
-    }
-
-    callback(null)
-  }.bind(this))
-}
-
-CategoryOverpass.prototype.setParentDom = function (parentDom) {
+LeafletGeowiki.prototype.setParentDom = function (parentDom) {
   CategoryBase.prototype.setParentDom.call(this, parentDom)
 }
 
-CategoryOverpass.prototype.setMap = function (map) {
+LeafletGeowiki.prototype.setMap = function (map) {
   CategoryBase.prototype.setMap.call(this, map)
 
   this.map.on('zoomend', function () {
@@ -307,7 +225,7 @@ CategoryOverpass.prototype.setMap = function (map) {
   this.updateInfo()
 }
 
-CategoryOverpass.prototype.updateStatus = function () {
+LeafletGeowiki.prototype.updateStatus = function () {
   this.domStatus.innerHTML = ''
 
   if (typeof this.data.query === 'object') {
@@ -322,7 +240,7 @@ CategoryOverpass.prototype.updateStatus = function () {
   }
 }
 
-CategoryOverpass.prototype.open = function () {
+LeafletGeowiki.prototype.open = function () {
   if (this.isOpen) {
     return
   }
@@ -407,8 +325,6 @@ CategoryOverpass.prototype.open = function () {
 
   this.isOpen = true
 
-  state.update()
-
   if ('info' in this.data) {
     if (!this.tabInfo) {
       this.tabInfo = new tabs.Tab({
@@ -432,7 +348,7 @@ CategoryOverpass.prototype.open = function () {
   this.emit('open')
 }
 
-CategoryOverpass.prototype.updateInfo = function () {
+LeafletGeowiki.prototype.updateInfo = function () {
   if (!this.tabInfo) {
     return
   }
@@ -454,11 +370,11 @@ CategoryOverpass.prototype.updateInfo = function () {
   global.currentCategory = null
 }
 
-CategoryOverpass.prototype.recalc = function () {
+LeafletGeowiki.prototype.recalc = function () {
   this.layer.recalc()
 }
 
-CategoryOverpass.prototype.close = function () {
+LeafletGeowiki.prototype.close = function () {
   if (!this.isOpen) {
     return
   }
@@ -467,15 +383,13 @@ CategoryOverpass.prototype.close = function () {
 
   this.layer.remove()
   this.lists.forEach(list => list.remove())
-
-  state.update()
 }
 
-CategoryOverpass.prototype.get = function (id, callback) {
+LeafletGeowiki.prototype.get = function (id, callback) {
   this.layer.get(id, callback)
 }
 
-CategoryOverpass.prototype.show = function (id, options, callback) {
+LeafletGeowiki.prototype.show = function (id, options, callback) {
   if (this.currentDetails) {
     this.currentDetails.hide()
   }
@@ -515,7 +429,7 @@ CategoryOverpass.prototype.show = function (id, options, callback) {
   )
 }
 
-CategoryOverpass.prototype.notifyPopupOpen = function (object, popup) {
+LeafletGeowiki.prototype.notifyPopupOpen = function (object, popup) {
   if (this.currentSelected) {
     this.currentSelected.hide()
   }
@@ -544,7 +458,7 @@ CategoryOverpass.prototype.notifyPopupOpen = function (object, popup) {
   popup._contentNode.insertBefore(popup._closeButton, popup._contentNode.firstChild)
 }
 
-CategoryOverpass.prototype.notifyPopupClose = function (object, popup) {
+LeafletGeowiki.prototype.notifyPopupClose = function (object, popup) {
   if (this.currentSelected) {
     this.currentSelected.hide()
     this.currentSelected = null
@@ -561,20 +475,7 @@ CategoryOverpass.prototype.notifyPopupClose = function (object, popup) {
   }
 }
 
-CategoryOverpass.prototype.renderTemplate = function (object, templateId, callback) {
-  OpenStreetBrowserLoader.getTemplate(templateId, this.options, function (err, template) {
-    if (err) {
-      err = "can't load " + templateId + ': ' + err
-      return callback(err, null)
-    }
-
-    var result = template.render(object.twigData)
-
-    callback(null, result)
-  })
-}
-
-CategoryOverpass.prototype.allMapFeatures = function (callback) {
+LeafletGeowiki.prototype.allMapFeatures = function (callback) {
   if (!this.isOpen) {
     return callback(null, [])
   }
@@ -586,7 +487,10 @@ CategoryOverpass.prototype.allMapFeatures = function (callback) {
   callback(null, list)
 }
 
-CategoryOverpass.defaultValues = defaultValues
+LeafletGeowiki.prototype.addTo = function (map) {
+  this.layer.addTo(map)
+}
 
-OpenStreetBrowserLoader.registerType('overpass', CategoryOverpass)
-module.exports = CategoryOverpass
+LeafletGeowiki.defaultValues = defaultValues
+
+module.exports = LeafletGeowiki

@@ -21,12 +21,16 @@
   "homepage": "https://github.com/plepe/leaflet-geowiki#readme",
   "dependencies": {
     "browserify-css": "^0.15.0",
-    "overpass-frontend": "^3.1.2"
+    "modulekit-tabs": "^0.2.2",
+    "openstreetbrowser-markers": "^1.0.0",
+    "overpass-layer": "^3.4.0",
+    "query-string": "^8.1.0"
   },
   "devDependencies": {
     "browserify": "^17.0.0",
     "esmify": "^2.1.1",
     "leaflet": "^1.9.3",
+    "overpass-frontend": "^3.1.2",
     "standard": "^17.0.0",
     "watchify": "^4.0.0"
   }

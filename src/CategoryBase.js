@@ -1,6 +1,5 @@
 /* global lang, ui_lang, options, alert */
 /* eslint camelcase: 0 */
-var OpenStreetBrowserLoader = require('./OpenStreetBrowserLoader')
 var tabs = require('modulekit-tabs')
 const ee = require('event-emitter')
 
@@ -157,24 +156,6 @@ CategoryBase.prototype.toggle = function () {
   }
 
   return false
-}
-
-CategoryBase.prototype.reload = function (callback) {
-  var parentCategory = this.parentCategory
-  var parentDom = this.parentDom
-
-  OpenStreetBrowserLoader.forget(this.id)
-
-  OpenStreetBrowserLoader.getCategory(this.id, { force: true }, function (err, category) {
-    if (err) {
-      return callback(err)
-    }
-
-    category.setParent(parentCategory)
-    category.setParentDom(parentDom)
-
-    callback(null, category)
-  })
 }
 
 CategoryBase.prototype.remove = function () {

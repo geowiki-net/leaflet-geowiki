@@ -1,3 +1,3 @@
-import { LeafletGeowiki } from './LeafletGeowiki'
+import LeafletGeowiki from './LeafletGeowiki'
 
 window.LeafletGeowiki = LeafletGeowiki
