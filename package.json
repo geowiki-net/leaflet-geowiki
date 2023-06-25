@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "browserify src/index.js -p esmify -o dist/leaflet-geowiki.js",
-    "watch": "watchify --debug src/index.js -p esmify -o dist/leaflet-geowiki.js -v",
+    "build": "browserify -g browserify-css src/index.js -p esmify -o dist/leaflet-geowiki.js",
+    "watch": "watchify -g browserify-css --debug src/index.js -p esmify -o dist/leaflet-geowiki.js -v",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/plepe/leaflet-geowiki#readme",
   "dependencies": {
+    "browserify-css": "^0.15.0",
     "overpass-frontend": "^3.1.2"
   },
   "devDependencies": {
