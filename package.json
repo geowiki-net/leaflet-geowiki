@@ -24,7 +24,8 @@
     "modulekit-tabs": "^0.2.2",
     "openstreetbrowser-markers": "^1.0.0",
     "overpass-layer": "^3.4.0",
-    "query-string": "^8.1.0"
+    "query-string": "^8.1.0",
+    "sprintf-js": "^1.1.2"
   },
   "devDependencies": {
     "browserify": "^17.0.0",
