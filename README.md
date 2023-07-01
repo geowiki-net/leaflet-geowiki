@@ -37,4 +37,4 @@ feature:
 ### constructor LeafletGeowiki(options)
 The following options are available:
 * overpassFrontend: a OverpassFrontend object. If not set, the global 'overpassFrontend' variable will be used. If this is also not defined, a connection to the default Overpass API server will be created, which will be re-used by other layers.
-* style: style definition as JS object
+* style: style definition as JS object (if neither 'style' nor 'styleFile' are defined, uses 'nwr' as query)

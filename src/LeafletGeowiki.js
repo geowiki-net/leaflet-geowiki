@@ -75,7 +75,10 @@ class LeafletGeowiki {
 
     this.options = options
 
-    this.data = this.options.style
+    this.data = { query: 'nwr' }
+    if (this.options.style) {
+      this.data = this.options.style
+    }
 
     // set undefined data properties from defaultValues
     for (var k1 in defaultValues) {
