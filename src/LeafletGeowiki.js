@@ -74,21 +74,21 @@ class LeafletGeowiki {
     }
 
     this.options = options
-    let data = this.options.style
-    this.data = data
+
+    this.data = this.options.style
 
     // set undefined data properties from defaultValues
     for (var k1 in defaultValues) {
-      if (!(k1 in data)) {
-        data[k1] = JSON.parse(JSON.stringify(defaultValues[k1]))
+      if (!(k1 in this.data)) {
+        this.data[k1] = JSON.parse(JSON.stringify(defaultValues[k1]))
       } else if (typeof defaultValues[k1] === 'object') {
         for (var k2 in defaultValues[k1]) {
-          if (!(k2 in data[k1])) {
-            data[k1][k2] = JSON.parse(JSON.stringify(defaultValues[k1][k2]))
+          if (!(k2 in this.data[k1])) {
+            this.data[k1][k2] = JSON.parse(JSON.stringify(defaultValues[k1][k2]))
           } else if (typeof defaultValues[k1][k2] === 'object') {
             for (var k3 in defaultValues[k1][k2]) {
-              if (!(k3 in data[k1][k2])) {
-                data[k1][k2][k3] = JSON.parse(JSON.stringify(defaultValues[k1][k2][k3]))
+              if (!(k3 in this.data[k1][k2])) {
+                this.data[k1][k2][k3] = JSON.parse(JSON.stringify(defaultValues[k1][k2][k3]))
               }
             }
           }
@@ -97,22 +97,22 @@ class LeafletGeowiki {
     }
 
     // get minZoom
-    if ('minZoom' in data) {
+    if ('minZoom' in this.data) {
       // has minZoom
-    } else if (typeof data.query === 'object') {
-      data.minZoom = Object.keys(data.query)[0]
+    } else if (typeof this.data.query === 'object') {
+      this.data.minZoom = Object.keys(this.data.query)[0]
     } else {
-      data.minZoom = 14
+      this.data.minZoom = 14
     }
 
-    data.feature.appUrl = '#' + this.id + '/{{ id }}'
-    data.styleNoBindPopup = [ 'selected' ]
-    data.stylesNoAutoShow = [ 'selected' ]
-    data.updateAssets = this.updateAssets.bind(this)
-    data.layouts.popup = () => null
-    data.overpassFrontend = options.overpassFrontend
+    this.data.feature.appUrl = '#' + this.id + '/{{ id }}'
+    this.data.styleNoBindPopup = [ 'selected' ]
+    this.data.stylesNoAutoShow = [ 'selected' ]
+    this.data.updateAssets = this.updateAssets.bind(this)
+    this.data.layouts.popup = () => null
+    this.data.overpassFrontend = options.overpassFrontend
 
-    this.layer = new OverpassLayer(data)
+    this.layer = new OverpassLayer(this.data)
 
     this.layer.onLoadStart = (ev) => {
       this.dom.classList.add('loading')
@@ -149,7 +149,7 @@ class LeafletGeowiki {
 
 
     this.dom = document.createElement('div')
-    this.dom.className = 'category category-' + data.type
+    this.dom.className = 'category category-' + this.data.type
 
     var p = document.createElement('div')
     p.className = 'loadingIndicator'
