@@ -11,10 +11,13 @@ Embed in JS code:
 // Create Leaflet map object
 var map = L.map('map')
 
+// Optionally: connect to a database. This can be a Overpass API URL, a .osm or .osm.bz2 file
+var database = new OverpassFrontend('file.osm')
+
 // Initialize Geowiki viewer
 var geowiki = new LeafletGeowiki({
-  source: 'file.osm', // Overpass API URL, .osm or .osm.bz2 file
-  style: 'file.yaml'
+  overpassFrontend: database,
+  styleFile: 'file.yaml'
 }).addTo(map)
 ```
 
@@ -29,3 +32,8 @@ feature:
   description: |
     {{ tagTrans('amenity', tags.amenity) }}
 ```
+
+## API
+### constructor LeafletGeowiki(options)
+The following options are available:
+* overpassFrontend: a OverpassFrontend object. If not set, the global 'overpassFrontend' variable will be used. If this is also not defined, a connection to the default Overpass API server will be created, which will be re-used by other layers.

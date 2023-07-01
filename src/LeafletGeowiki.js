@@ -68,6 +68,14 @@ function LeafletGeowiki (options, data, repository) {
 
   CategoryBase.call(this, options, data, repository)
 
+  if (!options.overpassFrontend) {
+    if (!global.overpassFrontend) {
+      global.overpassFrontend = new OverpassFrontend('//overpass-api.de/api/interpreter')
+    }
+
+    this.options.overpassFrontend = global.overpassFrontend
+  }
+
   data.id = this.id
 
   // set undefined data properties from defaultValues
