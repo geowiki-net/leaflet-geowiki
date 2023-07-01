@@ -33,7 +33,8 @@ const overpassFrontend = new OverpassFrontend('data.osm')
 
 // Initialize Geowiki viewer
 var geowiki = new LeafletGeowiki({
-  overpassFrontend
-}, {query: 'nwr[amenity]'}).addTo(map)
+  overpassFrontend,
+  style: {query: 'nwr[amenity]'}
+}).addTo(map)
 </script>
 </html>

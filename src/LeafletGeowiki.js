@@ -4,8 +4,8 @@ var OverpassLayer = require('overpass-layer')
 const isTrue = require('overpass-layer/src/isTrue')
 var OverpassLayerList = require('overpass-layer').List
 var queryString = require('query-string')
+const ee = require('event-emitter')
 
-var CategoryBase = require('./CategoryBase')
 var tabs = require('modulekit-tabs')
 var markers = require('./markers')
 var queryString = require('query-string')
@@ -61,22 +61,20 @@ var defaultValues = {
   }
 }
 
-LeafletGeowiki.prototype = Object.create(CategoryBase.prototype)
-LeafletGeowiki.prototype.constructor = LeafletGeowiki
-function LeafletGeowiki (options, data, repository) {
+function LeafletGeowiki (options) {
   var p
-
-  CategoryBase.call(this, options, data, repository)
 
   if (!options.overpassFrontend) {
     if (!global.overpassFrontend) {
       global.overpassFrontend = new OverpassFrontend('//overpass-api.de/api/interpreter')
     }
 
-    this.options.overpassFrontend = global.overpassFrontend
+    options.overpassFrontend = global.overpassFrontend
   }
 
-  data.id = this.id
+  this.options = options
+  data = this.options.style
+  this.data = data
 
   // set undefined data properties from defaultValues
   for (var k1 in defaultValues) {
@@ -148,6 +146,9 @@ function LeafletGeowiki (options, data, repository) {
     }
   )
 
+
+  this.dom = document.createElement('div')
+  this.dom.className = 'category category-' + data.type
 
   var p = document.createElement('div')
   p.className = 'loadingIndicator'
@@ -500,5 +501,7 @@ LeafletGeowiki.prototype.addTo = function (map) {
 }
 
 LeafletGeowiki.defaultValues = defaultValues
+
+ee(LeafletGeowiki.prototype)
 
 module.exports = LeafletGeowiki
