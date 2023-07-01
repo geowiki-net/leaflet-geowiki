@@ -5,6 +5,7 @@ const isTrue = require('overpass-layer/src/isTrue')
 var OverpassLayerList = require('overpass-layer').List
 var queryString = require('query-string')
 const ee = require('event-emitter')
+const yaml = require('js-yaml')
 
 var tabs = require('modulekit-tabs')
 var markers = require('./markers')
@@ -63,8 +64,6 @@ var defaultValues = {
 
 class LeafletGeowiki {
   constructor (options) {
-    var p
-
     if (!options.overpassFrontend) {
       if (!global.overpassFrontend) {
         global.overpassFrontend = new OverpassFrontend('//overpass-api.de/api/interpreter')
@@ -78,7 +77,21 @@ class LeafletGeowiki {
     this.data = { query: 'nwr' }
     if (this.options.style) {
       this.data = this.options.style
+    } else if (this.options.styleFile) {
+      fetch(this.options.styleFile)
+        .then(req => req.text())
+        .then(body => {
+          this.data = yaml.load(body)
+          this.init()
+        })
+      return
     }
+
+    this.init()
+  }
+
+  init () {
+    var p
 
     // set undefined data properties from defaultValues
     for (var k1 in defaultValues) {
@@ -113,7 +126,7 @@ class LeafletGeowiki {
     this.data.stylesNoAutoShow = [ 'selected' ]
     this.data.updateAssets = this.updateAssets.bind(this)
     this.data.layouts.popup = () => null
-    this.data.overpassFrontend = options.overpassFrontend
+    this.data.overpassFrontend = this.options.overpassFrontend
 
     this.layer = new OverpassLayer(this.data)
 
@@ -171,6 +184,11 @@ class LeafletGeowiki {
       this.dom.appendChild(p)
 
       this.dom.appendChild(this.domStatus)
+    }
+
+    // layer has already been added, add now after initializing
+    if (this.map) {
+      this.layer.addTo(this.map)
     }
   }
 
@@ -378,7 +396,11 @@ class LeafletGeowiki {
   }
 
   addTo (map) {
-    this.layer.addTo(map)
+    if (this.layer) {
+      this.layer.addTo(map)
+    } else {
+      this.map = map
+    }
   }
 }
 

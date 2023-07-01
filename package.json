@@ -21,6 +21,7 @@
   "homepage": "https://github.com/plepe/leaflet-geowiki#readme",
   "dependencies": {
     "browserify-css": "^0.15.0",
+    "js-yaml": "^4.1.0",
     "modulekit-tabs": "^0.2.2",
     "openstreetbrowser-markers": "^1.0.0",
     "overpass-layer": "^3.4.0",
