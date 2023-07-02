@@ -6,6 +6,9 @@ var OverpassLayerList = require('overpass-layer').List
 var queryString = require('query-string')
 const ee = require('event-emitter')
 const yaml = require('js-yaml')
+const async = {
+  parallel: require('async/parallel')
+}
 
 var tabs = require('modulekit-tabs')
 var markers = require('./markers')
@@ -74,6 +77,15 @@ class LeafletGeowiki {
 
     this.options = options
 
+    async.parallel([
+      (done) => this.loadStyle(done),
+    ], (err) => {
+      if (err) { return console.error(err) }
+      this.init()
+    })
+  }
+
+  loadStyle (callback) {
     this.data = { query: 'nwr' }
     if (this.options.style) {
       this.data = this.options.style
@@ -82,12 +94,12 @@ class LeafletGeowiki {
         .then(req => req.text())
         .then(body => {
           this.data = yaml.load(body)
-          this.init()
+          callback()
         })
       return
     }
 
-    this.init()
+    callback()
   }
 
   init () {
