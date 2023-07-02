@@ -6,6 +6,7 @@ var OverpassLayerList = require('overpass-layer').List
 var queryString = require('query-string')
 const ee = require('event-emitter')
 const yaml = require('js-yaml')
+const modulekitLang = require('modulekit-lang')
 const async = {
   parallel: require('async/parallel')
 }
@@ -79,6 +80,7 @@ class LeafletGeowiki {
 
     async.parallel([
       (done) => this.loadStyle(done),
+      (done) => modulekitLang.set(null, {}, done)
     ], (err) => {
       if (err) { return console.error(err) }
       this.init()
@@ -181,7 +183,7 @@ class LeafletGeowiki {
 
     var p = document.createElement('div')
     p.className = 'loadingIndicator'
-    p.innerHTML = '<i class="fa fa-spinner fa-pulse fa-fw"></i><span class="sr-only">' + lang('loading') + '</span>'
+    p.innerHTML = '<i class="fa fa-spinner fa-pulse fa-fw"></i><span class="sr-only">' + modulekitLang.lang('loading') + '</span>'
     this.dom.appendChild(p)
 
     this.domStatus = document.createElement('div')
@@ -270,12 +272,12 @@ class LeafletGeowiki {
     if (typeof this.data.query === 'object') {
       var highestZoom = Object.keys(this.data.query).reverse()[0]
       if (this.map.getZoom() < highestZoom) {
-        this.domStatus.innerHTML = lang('zoom_in_more')
+        this.domStatus.innerHTML = modulekitLang.lang('zoom_in_more')
       }
     }
 
     if ('minZoom' in this.data && this.map.getZoom() < this.data.minZoom) {
-      this.domStatus.innerHTML = lang('zoom_in_appear')
+      this.domStatus.innerHTML = modulekitLang.lang('zoom_in_appear')
     }
   }
 
