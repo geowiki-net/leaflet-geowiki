@@ -139,7 +139,6 @@ class LeafletGeowiki {
     this.data.styleNoBindPopup = [ 'selected' ]
     this.data.stylesNoAutoShow = [ 'selected' ]
     this.data.updateAssets = this.updateAssets.bind(this)
-    this.data.layouts.popup = () => null
     this.data.overpassFrontend = this.options.overpassFrontend
 
     this.layer = new OverpassLayer(this.data)
