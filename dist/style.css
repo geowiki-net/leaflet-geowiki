@@ -1,0 +1,83 @@
+.leaflet-popup-content-wrapper {
+  padding: 0;
+}
+.leaflet-popup-content {
+  margin: 0;
+  overflow: auto;
+  min-width: 150px !important;
+  width: 300px !important;
+}
+@media all and (max-width: 501px) and (max-height: 675px) {
+.leaflet-popup-content {
+  max-height: 250px !important;
+}
+}
+@media all and (min-width: 501px) and (max-height: 400px) {
+.leaflet-popup-content {
+  max-height: 250px !important;
+}
+}
+@media all and (min-width: 501px) and (max-height: 360px) {
+.leaflet-popup-content {
+  max-height: 200px !important;
+}
+}
+@media all and (min-width: 501px) and (max-height: 320px) {
+.leaflet-popup-content {
+  max-height: 150px !important;
+}
+}
+@media all and (max-width: 700px) {
+.leaflet-popup-content {
+  width: 250px !important;
+}
+}
+@media all and (max-width: 600px) {
+.leaflet-popup-content {
+  width: 200px !important;
+}
+}
+@media all and (max-width: 550px) {
+.leaflet-popup-content {
+  width: 150px !important;
+}
+}
+@media all and (max-width: 400px) {
+.leaflet-popup-content {
+  width: 250px !important;
+}
+}
+@media all and (max-width: 360px) {
+.leaflet-popup-content {
+  width: 200px !important;
+}
+}
+
+.leaflet-popup-content > .header {
+  padding: 0.5em 10px;
+}
+.leaflet-popup-content > .header > .title {
+  font-size: 1.5em;
+  font-weight: normal;
+  margin: 0;
+}
+.leaflet-popup-content > .header > .description {
+  display: block;
+  font-style: italic;
+  color: #7f7f7f;
+  font-size: 1.5em;
+  font-weight: normal;
+}
+.leaflet-popup-content .block {
+  border-top: 1px solid #afafaf;
+  padding: 0.5em 10px;
+}
+.leaflet-popup-content .block > h3 {
+  margin-top: 0;
+  margin-bottom: 0.25em;
+  border: none;
+}
+.leaflet-popup-content .block.empty {
+  border-top: none;
+  padding: 0 0;
+}
