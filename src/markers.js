@@ -17,7 +17,6 @@ function updateImageSrc (img, src) {
       let span = document.createElement('span')
       img.parentNode.insertBefore(span, img)
       img.parentNode.removeChild(img)
-      i--
       let param = m[3] ? queryString.stringify(m[3]) : {}
 
       if (param.styles) {

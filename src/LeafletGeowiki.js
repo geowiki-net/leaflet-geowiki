@@ -224,16 +224,14 @@ class LeafletGeowiki {
   }
 
   updateAssets (div) {
-    var imgs = div.getElementsByTagName('img')
-    for (var i = 0; i < imgs.length; i++) {
-      let img = imgs[i]
-
+    var imgs = Array.from(div.getElementsByTagName('img'))
+    imgs.forEach(img => {
       // TODO: 'src' is deprecated, use only data-src
       var src = img.getAttribute('src') || img.getAttribute('data-src')
       if (src !== null) {
         this.emit('updateImageSrc', img, src)
       }
-    }
+    })
   }
 
   setMap (map) {
