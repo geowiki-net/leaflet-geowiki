@@ -8,13 +8,15 @@ const ee = require('event-emitter')
 const yaml = require('js-yaml')
 const modulekitLang = require('modulekit-lang')
 const async = {
-  parallel: require('async/parallel')
+  each: require('async/each'),
+  parallel: require('async/parallel'),
 }
 
 var tabs = require('modulekit-tabs')
 var markers = require('./markers')
 var queryString = require('query-string')
 const ObjectDisplay = require('./ObjectDisplay')
+const extensions = []
 
 const showMore = require('./showMore')
 
@@ -82,7 +84,14 @@ class LeafletGeowiki {
 
     async.parallel([
       (done) => this.loadStyle(done),
-      (done) => modulekitLang.set(null, {}, done)
+      (done) => modulekitLang.set(null, {}, done),
+      (done) => async.each(extensions, (extension, done) => {
+        if (extension.initFun) {
+          extension.initFun(this, done)
+        } else {
+          done()
+        }
+      }, done)
     ], (err) => {
       if (err) { return console.error(err) }
       this.init()
@@ -420,6 +429,10 @@ class LeafletGeowiki {
 }
 
 LeafletGeowiki.defaultValues = defaultValues
+
+LeafletGeowiki.addExtension = (extension) => {
+  extensions.push(extension)
+}
 
 ee(LeafletGeowiki.prototype)
 
