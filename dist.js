@@ -1,0 +1,1 @@
+window.LeafletGeowiki = require('./all')
