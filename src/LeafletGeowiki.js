@@ -42,7 +42,7 @@ const listTemplate = '<a href="{{ object.appUrl|default("#") }}">' +
 
 var defaultValues = {
   feature: {
-    title: "{{ localizedTag(tags, 'name') |default(localizedTag(tags, 'operator')) | default(localizedTag(tags, 'ref')) }}",
+    title: '{{ tags.name|default(tags.operator)|default(tags.ref) }}',
     markerSign: '',
     'style:selected': {
       color: '#3f3f3f',
