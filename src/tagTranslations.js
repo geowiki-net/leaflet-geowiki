@@ -1,6 +1,10 @@
 /* eslint camelcase:0 */
 const LeafletGeowiki = require('./LeafletGeowiki')
 LeafletGeowiki.defaultValues.feature.title = "{{ localizedTag(tags, 'name') |default(localizedTag(tags, 'operator')) | default(localizedTag(tags, 'ref')) }}"
+LeafletGeowiki.addExtension({
+  id: 'tagTranslations'
+})
+
 const sprintf = require('sprintf-js')
 const modulekitLang = require('modulekit-lang')
 var OverpassLayer = require('overpass-layer')
