@@ -13,7 +13,6 @@ const async = {
 }
 
 var tabs = require('modulekit-tabs')
-var markers = require('./markers')
 var queryString = require('query-string')
 const ObjectDisplay = require('./ObjectDisplay')
 const extensions = []
@@ -53,8 +52,7 @@ var defaultValues = {
       radius: 12,
       pane: 'selected'
     },
-    markerSymbol: '{{ markerPointer({})|raw }}',
-    listMarkerSymbol: '{{ markerCircle({})|raw }}',
+    markerSymbol: null,
     preferredZoom: 16
   },
   layouts: {
@@ -232,34 +230,8 @@ class LeafletGeowiki {
 
       // TODO: 'src' is deprecated, use only data-src
       var src = img.getAttribute('src') || img.getAttribute('data-src')
-      if (src === null) {
-      }
-
-      else if (src.match(/^(marker):.*/)) {
-        let m = src.match(/^(marker):([a-z0-9-_]*)(?:\?(.*))?$/)
-        if (m) {
-          let span = document.createElement('span')
-          img.parentNode.insertBefore(span, img)
-          img.parentNode.removeChild(img)
-          i--
-          let param = m[3] ? queryString.stringify(m[3]) : {}
-
-          if (param.styles) {
-            let newParam = { styles: param.styles }
-            for (let k in param) {
-              let m = k.match(/^(style|style:.*)?:([^:]*)$/)
-              if (m) {
-                if (!(m[1] in newParam)) {
-                  newParam[m[1]] = {}
-                }
-                newParam[m[1]][m[2]] = param[k]
-              }
-            }
-            param = newParam
-          }
-
-          span.innerHTML = markers[m[2]](param)
-        }
+      if (src !== null) {
+        this.emit('updateImageSrc', img, src)
       }
     }
   }
