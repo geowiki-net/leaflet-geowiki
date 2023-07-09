@@ -2,7 +2,7 @@
   "name": "leaflet-geowiki",
   "version": "0.0.0",
   "description": "Combines an OSM Source and Stylesheet as layer for a Leaflet map",
-  "main": "dist.js",
+  "main": "all.js",
   "type": "module",
   "scripts": {
     "build": "browserify -g browserify-css dist.js -p esmify -o dist/leaflet-geowiki.js",
