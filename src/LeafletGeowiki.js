@@ -14,7 +14,6 @@ const async = {
 
 var tabs = require('modulekit-tabs')
 var queryString = require('query-string')
-const ObjectDisplay = require('./ObjectDisplay')
 const extensions = []
 
 const showMore = require('./showMore')
@@ -347,13 +346,6 @@ class LeafletGeowiki {
     }
 
     this.currentSelected = this.layer.show(object.id, layerOptions, () => {})
-
-    this.currentPopupDisplay = new ObjectDisplay({
-      feature: object,
-      category: this,
-      dom: popup._contentNode,
-      displayId: 'popup'
-    }, () => {})
 
     // Move close button into the content, to make its position depending whether a scrollbar is visible or not
     popup._closeButton.setAttribute('data-order', -1001)
