@@ -11,3 +11,13 @@ panes:
 Creates a pane 'casing', with a CSS zIndex of 399.
 
 More on panes: https://leafletjs.com/reference.html#map-pane
+
+## Using Twig
+Alternatively, if 'panes' is a string, a Twig template is expected, that evaluates into a YAML document:
+```yaml
+panes: |
+  {% for i in [1, 2, 3] %}
+  casing{{ i }}:
+    zIndex: {{ 397 + i }}
+  {% endfor %}
+```
