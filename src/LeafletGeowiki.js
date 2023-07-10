@@ -180,6 +180,8 @@ class LeafletGeowiki {
 
       this.emit('update', object, ob)
     })
+    this.layer.on('layeradd', () => this.emit('layeradd'))
+    this.layer.on('layerremove', () => this.emit('layerremove'))
     this.layer.on('add', (ob, data) => this.emit('add', ob, data))
     this.layer.on('remove', (ob, data) => this.emit('remove', ob, data))
     this.layer.on('zoomChange', (ob, data) => this.emit('remove', ob, data))
