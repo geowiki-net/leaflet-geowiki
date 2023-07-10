@@ -9,7 +9,11 @@ LeafletGeowiki.addExtension({
       if (that.data.panes) {
         if (typeof that.data.panes === 'string') {
           const template = OverpassLayer.twig.twig({ data: that.data.panes, autoescape: true })
-          const p = template.render({})
+          const p = template.render({
+            layer_id: that.id,
+            'const': that.data.const
+          })
+
           that.data.panes = yaml.load(p)
         }
 
