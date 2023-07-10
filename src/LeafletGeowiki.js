@@ -79,8 +79,14 @@ class LeafletGeowiki {
 
     this.options = options
 
+    this.loadStyle((err) => {
+      if (err) { return console.error(err) }
+      this.initExtensions()
+    })
+  }
+
+  initExtensions () {
     async.parallel([
-      (done) => this.loadStyle(done),
       (done) => modulekitLang.set(null, {}, done),
       (done) => async.each(extensions, (extension, done) => {
         if (extension.initFun) {
