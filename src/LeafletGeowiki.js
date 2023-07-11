@@ -396,6 +396,22 @@ class LeafletGeowiki {
       this.map = map
     }
   }
+
+  /**
+   * render a twig template. The following variables will be available: 'const' (the 'const' section from the stylesheet), 'layer_id' (the 'id' of the stylesheet, if it has any).
+   * @param {string} template A twig template
+   * @returns {string} The result
+   */
+  renderTemplate (template) {
+    const t = OverpassLayer.twig.twig({ data: template, autoescape: true })
+
+    const p = t.render({
+      layer_id: this.id,
+      'const': this.data.const
+    })
+
+    return p
+  }
 }
 
 LeafletGeowiki.defaultValues = defaultValues
