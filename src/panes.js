@@ -1,5 +1,4 @@
 import LeafletGeowiki from './LeafletGeowiki'
-import OverpassLayer from 'overpass-layer'
 import yaml from 'js-yaml'
 
 LeafletGeowiki.addExtension({
@@ -8,12 +7,7 @@ LeafletGeowiki.addExtension({
     that.once('layeradd', () => {
       if (that.data.panes) {
         if (typeof that.data.panes === 'string') {
-          const template = OverpassLayer.twig.twig({ data: that.data.panes, autoescape: true })
-          const p = template.render({
-            layer_id: that.id,
-            'const': that.data.const
-          })
-
+          const p = that.renderTemplate(that.data.panes)
           that.data.panes = yaml.load(p)
         }
 
