@@ -7,7 +7,7 @@
   <script src="dist/leaflet-geowiki.js"></script>
   <style>
 #map { position: absolute; left: 0; right: 0; top: 0; bottom: 0 }
-#info { position: absolute; right: 1em; bottom: 1em; z-index: 1000; background: white; }
+#info { position: absolute; max-width: 10em; left: 1em; bottom: 1em; z-index: 1000; background: white; }
   </style>
 </head>
 <body>
@@ -32,10 +32,12 @@ const overpassFrontend = new OverpassFrontend('data.osm')
 // Initialize Geowiki viewer
 var geowiki = new LeafletGeowiki({
   overpassFrontend,
-  styleFile: 'example.yaml'
+  styleFile: 'example.yaml',
+  // show map info (if available)
+  info: { dom: document.getElementById('info') }
 }).addTo(map)
 
-// Show map info (if available)
-geowiki.setOption('info', { dom: document.getElementById('info') })
+// We could also add the map info with this command
+//geowiki.setOption('info', { dom: document.getElementById('info') })
 </script>
 </html>

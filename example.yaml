@@ -1,2 +1,4 @@
 query:
   15: 'nwr[amenity]'
+info: |
+  This layer shows all amenities in the current map view.
