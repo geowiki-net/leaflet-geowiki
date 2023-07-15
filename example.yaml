@@ -1,2 +1,2 @@
 query:
-  15: nwr[amenity=restaurant]
+  15: 'nwr[amenity]'
