@@ -400,17 +400,25 @@ class LeafletGeowiki {
   }
 
   /**
-   * render a twig template. The following variables will be available: 'const' (the 'const' section from the stylesheet), 'layer_id' (the 'id' of the stylesheet, if it has any).
+   * render a twig template. The following variables will be available: 'const' (the 'const' section from the stylesheet), 'layer_id' (the 'id' of the stylesheet, if it has any), 'map.zoom' (current zoom level), 'map.metersPerPixel' (size of a pixel at the map center).
    * @param {string} template A twig template
    * @returns {string} The result
    */
   renderTemplate (template) {
     const t = OverpassLayer.twig.twig({ data: template, autoescape: true })
 
-    const p = t.render({
+    const data = {
       layer_id: this.id,
       'const': this.data.const
-    })
+    }
+    if (this.map) {
+      data.map = {
+        zoom: this.map.getZoom(),
+        metersPerPixel: 40075016.686 * Math.abs(Math.cos(this.map.getCenter().lat / 180 * Math.PI)) / Math.pow(2, this.map.getZoom() + 8)
+      }
+    }
+
+    const p = t.render(data)
 
     return p
   }
