@@ -422,6 +422,16 @@ class LeafletGeowiki {
 
     return p
   }
+
+  /**
+   * Change an option. Emits 'updateOptions'.
+   * @param {string} key The key to change
+   * @param {mixed} value The value of the option to change to
+   */
+  setOption (key, value) {
+    this.options[key] = value
+    this.emit('updateOptions', key)
+  }
 }
 
 LeafletGeowiki.defaultValues = defaultValues
