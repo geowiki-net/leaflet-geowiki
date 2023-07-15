@@ -395,6 +395,8 @@ class LeafletGeowiki {
     } else {
       this.map = map
     }
+
+    return this
   }
 
   /**
