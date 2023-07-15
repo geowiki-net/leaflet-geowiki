@@ -1,4 +1,8 @@
 query:
   15: 'nwr[amenity]'
+feature:
+  # As description use the translation of amentiy-tag
+  description: |
+    {{ tagTrans('amenity', tags.amenity) }}
 info: |
   This layer shows all amenities in the current map view.
