@@ -39,6 +39,7 @@ The following options are available:
 * overpassFrontend: a OverpassFrontend object. If not set, the global 'overpassFrontend' variable will be used. If this is also not defined, a connection to the default Overpass API server will be created, which will be re-used by other layers.
 * style: style definition as JS object (if neither 'style' nor 'styleFile' are defined, uses 'nwr' as query)
 * styleFile: loads the style from the specified file (.json or .yaml)
+* info: pass an object with { dom: domNode }. The map info will be rendered into this domNode.
 
 Static Methods:
 * addExtension({ ... }): Add an extension to LeafletGeowiki. The following options can be passed:
