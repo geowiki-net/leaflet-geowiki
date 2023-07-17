@@ -158,19 +158,13 @@ class LeafletGeowiki {
     this.layer = new OverpassLayer(this.data)
 
     this.layer.onLoadStart = (ev) => {
-      this.dom.classList.add('loading')
-      if (this.parentCategory) {
-        this.parentCategory.notifyChildLoadStart(this)
-      }
+      this.emit('loadingStart', ev)
     }
     this.layer.onLoadEnd = (ev) => {
-      this.dom.classList.remove('loading')
-      if (this.parentCategory) {
-        this.parentCategory.notifyChildLoadEnd(this)
-      }
+      this.emit('loadingEnd', ev)
 
       if (ev.error) {
-        alert('Error loading data from Overpass API: ' + ev.error)
+        console.error('Error loading data from Overpass API: ' + ev.error)
       }
     }
     this.layer.on('update', (object, ob) => {
@@ -185,49 +179,12 @@ class LeafletGeowiki {
     this.layer.on('add', (ob, data) => this.emit('add', ob, data))
     this.layer.on('remove', (ob, data) => this.emit('remove', ob, data))
     this.layer.on('zoomChange', (ob, data) => this.emit('zoomChange', ob, data))
-    this.layer.on('twigData',
-      (ob, data, result) => {
-        result.user = global.options
-        global.currentCategory = this
-      }
-    )
-
-
-    this.dom = document.createElement('div')
-    this.dom.className = 'category category-' + this.data.type
-
-    var p = document.createElement('div')
-    p.className = 'loadingIndicator'
-    p.innerHTML = '<i class="fa fa-spinner fa-pulse fa-fw"></i><span class="sr-only">' + modulekitLang.lang('loading') + '</span>'
-    this.dom.appendChild(p)
-
-    this.domStatus = document.createElement('div')
-    this.domStatus.className = 'status'
-
-    if (this.data.lists) {
-      this.dom.insertBefore(this.domStatus, this.domHeader.nextSibling)
-    } else {
-      p = document.createElement('div')
-      p.className = 'loadingIndicator2'
-      p.innerHTML = '<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>'
-      this.dom.appendChild(p)
-
-      this.dom.appendChild(this.domStatus)
-    }
+    this.layer.on('twigData', (ob, data, result) => this.emit('twigData', ob, data, result))
 
     // layer has already been added, add now after initializing
     if (this.map) {
       this.layer.addTo(this.map)
     }
-  }
-
-  setParam (param) {
-    this.emit('setParam', param)
-    this._applyParam(param)
-  }
-
-  _applyParam (param) {
-    this.emit('applyParam', param)
   }
 
   updateAssets (div) {
@@ -239,33 +196,6 @@ class LeafletGeowiki {
         this.emit('updateImageSrc', img, src)
       }
     })
-  }
-
-  setMap (map) {
-    this.map = map
-
-    this.map.on('zoomend', () => {
-      this.updateStatus()
-      this.updateInfo()
-    })
-
-    this.updateStatus()
-    this.updateInfo()
-  }
-
-  updateStatus () {
-    this.domStatus.innerHTML = ''
-
-    if (typeof this.data.query === 'object') {
-      var highestZoom = Object.keys(this.data.query).reverse()[0]
-      if (this.map.getZoom() < highestZoom) {
-        this.domStatus.innerHTML = modulekitLang.lang('zoom_in_more')
-      }
-    }
-
-    if ('minZoom' in this.data && this.map.getZoom() < this.data.minZoom) {
-      this.domStatus.innerHTML = modulekitLang.lang('zoom_in_appear')
-    }
   }
 
   recalc () {
@@ -314,45 +244,6 @@ class LeafletGeowiki {
         callback(err, data)
       }
     )
-  }
-
-  notifyPopupOpen (object, popup) {
-    if (this.currentSelected) {
-      this.currentSelected.hide()
-    }
-
-    let layerOptions = {
-      styles: [ 'selected' ],
-      flags: [ 'selected' ],
-      sublayer_id: object.sublayer_id
-    }
-
-    if (popup._contentNode) {
-      popup._contentNode.style = ''
-    }
-
-    this.currentSelected = this.layer.show(object.id, layerOptions, () => {})
-
-    // Move close button into the content, to make its position depending whether a scrollbar is visible or not
-    popup._closeButton.setAttribute('data-order', -1001)
-    popup._contentNode.insertBefore(popup._closeButton, popup._contentNode.firstChild)
-  }
-
-  notifyPopupClose (object, popup) {
-    if (this.currentSelected) {
-      this.currentSelected.hide()
-      this.currentSelected = null
-    }
-
-    if (this.currentDetails) {
-      this.currentDetails.hide()
-      this.currentDetails = null
-    }
-
-    if (this.currentPopupDisplay) {
-      this.currentPopupDisplay.close()
-      delete this.currentPopupDisplay
-    }
   }
 
   allMapFeatures (callback) {
