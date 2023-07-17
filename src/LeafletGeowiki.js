@@ -268,28 +268,6 @@ class LeafletGeowiki {
     }
   }
 
-  updateInfo () {
-    if (!this.tabInfo) {
-      return
-    }
-
-    global.currentCategory = this
-    var data = {
-      layer_id: this.id,
-      'const': this.data.const
-    }
-    this.emit('updateInfo', data)
-    if (this.map) {
-      data.map = {
-        zoom: this.map.getZoom(),
-        metersPerPixel: this.map.getMetersPerPixel()
-      }
-    }
-    this.domInfo.innerHTML = this.templateInfo.render(data)
-    this.updateAssets(this.domInfo)
-    global.currentCategory = null
-  }
-
   recalc () {
     this.layer.recalc()
   }
