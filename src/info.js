@@ -19,4 +19,5 @@ function render (that) {
 
   const content = that.renderTemplate(that.data.info)
   that.options.info.dom.innerHTML = content
+  that.updateAssets(that.options.info.dom)
 }
