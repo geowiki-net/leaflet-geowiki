@@ -187,6 +187,21 @@ class LeafletGeowiki {
     }
   }
 
+  // compatibilty Leaflet Layerswitcher
+  _layerAdd (e) {
+    console.log(e.target)
+    this.addTo(e.target)
+  }
+
+  // compatibilty Leaflet Layerswitcher
+  onRemove () {
+    this.layer.remove()
+  }
+
+  // compatibilty Leaflet Layerswitcher - use emit instead
+  fire () {
+  }
+
   updateAssets (div) {
     var imgs = Array.from(div.getElementsByTagName('img'))
     imgs.forEach(img => {
