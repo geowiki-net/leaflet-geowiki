@@ -259,10 +259,9 @@ class LeafletGeowiki {
   }
 
   addTo (map) {
+    this.map = map
     if (this.layer) {
       this.layer.addTo(map)
-    } else {
-      this.map = map
     }
 
     return this
