@@ -78,6 +78,7 @@ class LeafletGeowiki {
     }
 
     this.options = options
+    this.isLoading = 0
 
     this.loadStyle((err) => {
       if (err) { return console.error(err) }
@@ -175,10 +176,14 @@ class LeafletGeowiki {
     const layer = new OverpassLayer(data)
 
     layer.onLoadStart = (ev) => {
-      this.emit('loadingStart', ev)
+      if (this.isLoading++ === 0) {
+        this.emit('loadingStart', ev)
+      }
     }
     layer.onLoadEnd = (ev) => {
-      this.emit('loadingEnd', ev)
+      if (--this.isLoading === 0) {
+        this.emit('loadingEnd', ev)
+      }
 
       if (ev.error) {
         console.error('Error loading data from Overpass API: ' + ev.error)
