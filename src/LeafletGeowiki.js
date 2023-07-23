@@ -43,6 +43,7 @@ const listTemplate = '<a href="{{ object.appUrl|default("#") }}">' +
 var defaultValues = {
   feature: {
     title: '{{ tags.name|default(tags.operator)|default(tags.ref) }}',
+    description: "{% set _k = true %}{% for k in ['amenity', 'shop', 'craft', 'office', 'place', 'tourism', 'historic', 'highway', 'power', 'railway', 'route', 'leisure', 'barrier', 'military', 'man_made', 'building', 'natural', 'landuse', 'waterway'] %}{% if _k and tags[k] %}{{ tagTransList(k, tags[k]) }}{% set _k = false %}{% endif %}{% endfor %}",
     markerSign: '',
     'style:selected': {
       color: '#3f3f3f',
