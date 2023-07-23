@@ -11,9 +11,6 @@ const async = {
   each: require('async/each'),
   parallel: require('async/parallel')
 }
-const tabs = require('modulekit-tabs')
-
-const showMore = require('./showMore')
 
 const extensions = []
 

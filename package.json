@@ -26,7 +26,6 @@
     "js-yaml": "^4.1.0",
     "md5": "^2.3.0",
     "modulekit-lang": "github:plepe/modulekit-lang#browserify",
-    "modulekit-tabs": "^0.2.2",
     "natsort": "^2.0.3",
     "opening_hours": "^3.8.0",
     "openstreetbrowser-markers": "^1.0.0",
