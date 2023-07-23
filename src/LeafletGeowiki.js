@@ -1,22 +1,21 @@
 /* global openstreetbrowserPrefix */
 /* eslint camelcase: 0 */
-var OverpassLayer = require('overpass-layer')
+const OverpassLayer = require('overpass-layer')
 const isTrue = require('overpass-layer/src/isTrue')
-var OverpassLayerList = require('overpass-layer').List
-var queryString = require('query-string')
+const OverpassLayerList = require('overpass-layer').List
+const queryString = require('query-string')
 const ee = require('event-emitter')
 const yaml = require('js-yaml')
 const modulekitLang = require('modulekit-lang')
 const async = {
   each: require('async/each'),
-  parallel: require('async/parallel'),
+  parallel: require('async/parallel')
 }
-
-var tabs = require('modulekit-tabs')
-var queryString = require('query-string')
-const extensions = []
+const tabs = require('modulekit-tabs')
 
 const showMore = require('./showMore')
+
+const extensions = []
 
 const listTemplate = '<a href="{{ object.appUrl|default("#") }}">' +
   '<div class="marker">' +
@@ -40,7 +39,7 @@ const listTemplate = '<a href="{{ object.appUrl|default("#") }}">' +
   '</div>' +
   '</a>'
 
-var defaultValues = {
+const defaultValues = {
   feature: {
     title: '{{ tags.name|default(tags.operator)|default(tags.ref) }}',
     description: "{% set _k = true %}{% for k in ['amenity', 'shop', 'craft', 'office', 'place', 'tourism', 'historic', 'highway', 'power', 'railway', 'route', 'leisure', 'barrier', 'military', 'man_made', 'building', 'natural', 'landuse', 'waterway'] %}{% if _k and tags[k] %}{{ tagTransList(k, tags[k]) }}{% set _k = false %}{% endif %}{% endfor %}",
@@ -120,7 +119,7 @@ class LeafletGeowiki {
   }
 
   init () {
-    var p
+    let p
 
     let layerDefs = [this.data]
     if (this.data.layers) {
@@ -140,15 +139,15 @@ class LeafletGeowiki {
 
   initLayer (data) {
     // set undefined data properties from defaultValues
-    for (var k1 in defaultValues) {
+    for (const k1 in defaultValues) {
       if (!(k1 in data)) {
         data[k1] = JSON.parse(JSON.stringify(defaultValues[k1]))
       } else if (typeof defaultValues[k1] === 'object') {
-        for (var k2 in defaultValues[k1]) {
+        for (const k2 in defaultValues[k1]) {
           if (!(k2 in data[k1])) {
             data[k1][k2] = JSON.parse(JSON.stringify(defaultValues[k1][k2]))
           } else if (typeof defaultValues[k1][k2] === 'object') {
-            for (var k3 in defaultValues[k1][k2]) {
+            for (const k3 in defaultValues[k1][k2]) {
               if (!(k3 in data[k1][k2])) {
                 data[k1][k2][k3] = JSON.parse(JSON.stringify(defaultValues[k1][k2][k3]))
               }
@@ -168,8 +167,8 @@ class LeafletGeowiki {
     }
 
     data.feature.appUrl = '#' + this.id + '/{{ id }}'
-    data.styleNoBindPopup = [ 'selected' ]
-    data.stylesNoAutoShow = [ 'selected' ]
+    data.styleNoBindPopup = ['selected']
+    data.stylesNoAutoShow = ['selected']
     data.updateAssets = this.updateAssets.bind(this)
     data.overpassFrontend = this.options.overpassFrontend
 
@@ -222,10 +221,10 @@ class LeafletGeowiki {
   }
 
   updateAssets (div) {
-    var imgs = Array.from(div.getElementsByTagName('img'))
+    const imgs = Array.from(div.getElementsByTagName('img'))
     imgs.forEach(img => {
       // TODO: 'src' is deprecated, use only data-src
-      var src = img.getAttribute('src') || img.getAttribute('data-src')
+      const src = img.getAttribute('src') || img.getAttribute('data-src')
       if (src !== null) {
         this.emit('updateImageSrc', img, src)
       }
@@ -246,12 +245,12 @@ class LeafletGeowiki {
       this.currentDetails.hide()
     }
 
-    let layerOptions = {
-      styles: [ 'selected' ],
-      flags: [ 'selected' ]
+    const layerOptions = {
+      styles: ['selected'],
+      flags: ['selected']
     }
 
-    let idParts = id.split(/:/)
+    const idParts = id.split(/:/)
     switch (idParts.length) {
       case 2:
         id = idParts[1]
@@ -267,11 +266,11 @@ class LeafletGeowiki {
       (err, ob, data) => {
         if (!err) {
           if (!options.hasLocation) {
-            var preferredZoom = data.data.preferredZoom || 16
-            var maxZoom = this.map.getZoom()
+            const preferredZoom = data.data.preferredZoom || 16
+            let maxZoom = this.map.getZoom()
             maxZoom = maxZoom > preferredZoom ? maxZoom : preferredZoom
             this.map.flyToBounds(data.object.bounds.toLeaflet({ shiftWorld: this.layer.getShiftWorld() }), {
-              maxZoom: maxZoom
+              maxZoom
             })
           }
         }
@@ -310,7 +309,7 @@ class LeafletGeowiki {
 
     const data = {
       layer_id: this.id,
-      'const': this.data.const
+      const: this.data.const
     }
     if (this.map) {
       data.map = {

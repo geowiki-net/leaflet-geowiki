@@ -1,5 +1,5 @@
 function editLinkRemote (type, osm_id) {
-  let id = type.substr(0, 1) + osm_id
+  const id = type.substr(0, 1) + osm_id
 
   global.overpassFrontend.get(
     id,
@@ -11,10 +11,10 @@ function editLinkRemote (type, osm_id) {
         return console.error(err)
       }
 
-      let bounds = object.bounds
+      const bounds = object.bounds
 
-      let xhr = new XMLHttpRequest()
-      let url = 'http://127.0.0.1:8111/load_and_zoom' +
+      const xhr = new XMLHttpRequest()
+      const url = 'http://127.0.0.1:8111/load_and_zoom' +
         '?left=' + (bounds.minlon - 0.0001).toFixed(5) +
         '&right=' + (bounds.maxlon + 0.0001).toFixed(5) +
         '&top=' + (bounds.maxlat + 0.0001).toFixed(5) +
@@ -40,7 +40,7 @@ window.editLink = function (type, osm_id) {
       break
     case 'id':
     default:
-      let url = global.config.urlOpenStreetMap + '/edit?editor=id&' + type + '=' + osm_id
+      const url = global.config.urlOpenStreetMap + '/edit?editor=id&' + type + '=' + osm_id
       window.open(url)
   }
 

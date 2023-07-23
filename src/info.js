@@ -9,7 +9,7 @@ LeafletGeowiki.addExtension({
       that.on('layeradd', () => render(that))
       that.on('updateOptions', () => render(that))
     }
-    
+
     callback()
   }
 })

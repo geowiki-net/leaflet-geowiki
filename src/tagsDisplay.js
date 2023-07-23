@@ -45,7 +45,7 @@ let defaultTemplate
 function tagsDisplay (tags) {
   if (!compiled) {
     defaultTemplate = OverpassLayer.twig.twig({ data: '{{ value }}', autoescape: true })
-    for (let i in formatter) {
+    for (const i in formatter) {
       if (formatter[i].format) {
         formatter[i].template = OverpassLayer.twig.twig({ data: formatter[i].format, autoescape: true })
       } else {
@@ -58,7 +58,7 @@ function tagsDisplay (tags) {
 
   const div = document.createElement('dl')
   div.className = 'tags'
-  for (let k in tags) {
+  for (const k in tags) {
     const dt = document.createElement('dt')
     dt.appendChild(document.createTextNode(k))
     div.appendChild(dt)
@@ -76,7 +76,7 @@ function tagsDisplay (tags) {
     let value = tags[k].split(/;/g)
     value = value.map(v => {
       // trim whitespace (but add it around the formatted value later)
-      let m = v.match(/^( *)([^ ].*[^ ]|[^ ])( *)$/)
+      const m = v.match(/^( *)([^ ].*[^ ]|[^ ])( *)$/)
       if (m) {
         return m[1] + template.render({ key: k, value: m[2] }) + m[3]
       }

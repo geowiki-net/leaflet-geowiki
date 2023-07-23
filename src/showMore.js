@@ -22,11 +22,11 @@ function delayedUpdate (dom, p) {
 function showMore (category, dom) {
   dom.classList.add('collapsed')
 
-  let p = document.createElement('div')
+  const p = document.createElement('div')
   p.className = 'showMore'
   dom.parentNode.insertBefore(p, dom.nextSibling)
 
-  let a = document.createElement('a')
+  const a = document.createElement('a')
   a.href = '#'
   a.innerHTML = lang('more_results')
   a.onclick = () => {

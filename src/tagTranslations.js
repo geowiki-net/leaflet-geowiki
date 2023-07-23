@@ -7,8 +7,8 @@ LeafletGeowiki.addExtension({
 
 const sprintf = require('sprintf-js')
 const modulekitLang = require('modulekit-lang')
-var OverpassLayer = require('overpass-layer')
-var tagLang = null
+const OverpassLayer = require('overpass-layer')
+let tagLang = null
 
 OverpassLayer.twig.extendFunction('keyTrans', function () {
   return tagTranslationsTrans.call(this, arguments[0], undefined, arguments[1])
@@ -38,9 +38,9 @@ function tagTranslationsIsTranslated (str) {
 }
 
 function tagTranslationsTrans () {
-  var tag = arguments[0]
-  var value
-  var count
+  const tag = arguments[0]
+  let value
+  let count
   if (arguments.length > 1) {
     value = arguments[1]
   }

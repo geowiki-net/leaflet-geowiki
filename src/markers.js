@@ -1,5 +1,5 @@
 const markers = require('openstreetbrowser-markers')
-var OverpassLayer = require('overpass-layer')
+const OverpassLayer = require('overpass-layer')
 const LeafletGeowiki = require('./LeafletGeowiki')
 
 LeafletGeowiki.defaultValues.markerSymbol = '{{ markerPointer({})|raw }}'
@@ -12,17 +12,17 @@ OverpassLayer.twig.extendFunction('markerPolygon', (data, options) => OverpassLa
 
 function updateImageSrc (img, src) {
   if (src.match(/^(marker):.*/)) {
-    let m = src.match(/^(marker):([a-z0-9-_]*)(?:\?(.*))?$/)
+    const m = src.match(/^(marker):([a-z0-9-_]*)(?:\?(.*))?$/)
     if (m) {
-      let span = document.createElement('span')
+      const span = document.createElement('span')
       img.parentNode.insertBefore(span, img)
       img.parentNode.removeChild(img)
       let param = m[3] ? queryString.stringify(m[3]) : {}
 
       if (param.styles) {
-        let newParam = { styles: param.styles }
-        for (let k in param) {
-          let m = k.match(/^(style|style:.*)?:([^:]*)$/)
+        const newParam = { styles: param.styles }
+        for (const k in param) {
+          const m = k.match(/^(style|style:.*)?:([^:]*)$/)
           if (m) {
             if (!(m[1] in newParam)) {
               newParam[m[1]] = {}

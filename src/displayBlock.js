@@ -1,4 +1,4 @@
-module.exports = function displayBlock ({dom, content, title, order}) {
+module.exports = function displayBlock ({ dom, content, title, order }) {
   const block = document.createElement('div')
   block.className = 'block'
 
@@ -30,8 +30,8 @@ module.exports = function displayBlock ({dom, content, title, order}) {
 function reorder (dom) {
   const children = Array.from(dom.children)
   children.sort((child1, child2) => {
-    let o1 = child1.hasAttribute('data-order') ? parseFloat(child1.getAttribute('data-order')) : 0
-    let o2 = child2.hasAttribute('data-order') ? parseFloat(child2.getAttribute('data-order')) : 0
+    const o1 = child1.hasAttribute('data-order') ? parseFloat(child1.getAttribute('data-order')) : 0
+    const o2 = child2.hasAttribute('data-order') ? parseFloat(child2.getAttribute('data-order')) : 0
     return o1 - o2
   })
   children.forEach(child => dom.appendChild(child))

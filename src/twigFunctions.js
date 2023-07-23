@@ -7,13 +7,13 @@ const natsort = require('natsort').default
 const md5 = require('md5')
 const yaml = require('js-yaml')
 
-var md5cache = {}
+const md5cache = {}
 
 OverpassLayer.twig.extendFunction('tagsPrefix', function (tags, prefix) {
-  var ret = {}
-  var count = 0
+  const ret = {}
+  let count = 0
 
-  for (var k in tags) {
+  for (const k in tags) {
     if (k.substr(0, prefix.length) === prefix) {
       ret[k.substr(prefix.length)] = k
       count++
@@ -67,7 +67,7 @@ OverpassLayer.twig.extendFilter('unique', function (values, options) {
   return values.filter(onlyUnique)
 })
 OverpassLayer.twig.extendFunction('colorInterpolate', function (map, value) {
-  var colormap = colorInterpolate(map)
+  const colormap = colorInterpolate(map)
   return colormap(value)
 })
 OverpassLayer.twig.extendFilter('osmParseDate', function (value) {
@@ -87,7 +87,7 @@ OverpassLayer.twig.extendFunction('evaluate', function (tags) {
   const ob = {
     id: 'x0',
     meta: {},
-    tags: tags,
+    tags,
     type: 'special'
   }
 
@@ -110,11 +110,9 @@ function enumerate (list) {
     }
 
     return lang_str.enumerate_end.replace('{0}', result).replace('{1}', list[list.length - 1])
-  }
-  else if (list.length == 2) {
+  } else if (list.length == 2) {
     return lang_str.enumerate_2.replace('{0}', list[0]).replace('{1}', list[1])
-  }
-  else if (list.length > 0) {
+  } else if (list.length > 0) {
     return list[0]
   }
 
@@ -127,9 +125,9 @@ OverpassLayer.twig.extendFilter('ksort', (list) => {
     return list
   }
 
-  let keys = list._keys || Object.keys(list)
+  const keys = list._keys || Object.keys(list)
   keys.sort()
-  let result = Object.assign({}, list)
+  const result = Object.assign({}, list)
   result._keys = keys
   return result
 })
@@ -169,7 +167,7 @@ function twigClear (value) {
   }
 
   const v = {}
-  for (let k in value) {
+  for (const k in value) {
     if (k !== '_keys') {
       v[k] = value[k]
     }
