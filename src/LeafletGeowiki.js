@@ -85,7 +85,7 @@ class LeafletGeowiki {
 
   initExtensions () {
     async.parallel([
-      (done) => modulekitLang.set(null, {}, done),
+      (done) => modulekitLang.set(this.options.language, {}, done),
       (done) => async.each(extensions, (extension, done) => {
         if (extension.initFun) {
           extension.initFun(this, done)
