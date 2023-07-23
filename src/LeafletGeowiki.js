@@ -122,18 +122,35 @@ class LeafletGeowiki {
   init () {
     var p
 
+    let layerDefs = [this.data]
+    if (this.data.layers) {
+      if (Array.isArray(this.data.layers)) {
+        layerDefs = this.data.layers
+      } else {
+        layerDefs = Object.entries(this.data.layers).map(([k, l]) => {
+          l.id = k
+          return l
+        })
+      }
+    }
+
+    this.layers = []
+    layerDefs.forEach(def => this.initLayer(def))
+  }
+
+  initLayer (data) {
     // set undefined data properties from defaultValues
     for (var k1 in defaultValues) {
-      if (!(k1 in this.data)) {
-        this.data[k1] = JSON.parse(JSON.stringify(defaultValues[k1]))
+      if (!(k1 in data)) {
+        data[k1] = JSON.parse(JSON.stringify(defaultValues[k1]))
       } else if (typeof defaultValues[k1] === 'object') {
         for (var k2 in defaultValues[k1]) {
-          if (!(k2 in this.data[k1])) {
-            this.data[k1][k2] = JSON.parse(JSON.stringify(defaultValues[k1][k2]))
+          if (!(k2 in data[k1])) {
+            data[k1][k2] = JSON.parse(JSON.stringify(defaultValues[k1][k2]))
           } else if (typeof defaultValues[k1][k2] === 'object') {
             for (var k3 in defaultValues[k1][k2]) {
-              if (!(k3 in this.data[k1][k2])) {
-                this.data[k1][k2][k3] = JSON.parse(JSON.stringify(defaultValues[k1][k2][k3]))
+              if (!(k3 in data[k1][k2])) {
+                data[k1][k2][k3] = JSON.parse(JSON.stringify(defaultValues[k1][k2][k3]))
               }
             }
           }
@@ -142,61 +159,62 @@ class LeafletGeowiki {
     }
 
     // get minZoom
-    if ('minZoom' in this.data) {
+    if ('minZoom' in data) {
       // has minZoom
-    } else if (typeof this.data.query === 'object') {
-      this.data.minZoom = Object.keys(this.data.query)[0]
+    } else if (typeof data.query === 'object') {
+      data.minZoom = Object.keys(data.query)[0]
     } else {
-      this.data.minZoom = 14
+      data.minZoom = 14
     }
 
-    this.data.feature.appUrl = '#' + this.id + '/{{ id }}'
-    this.data.styleNoBindPopup = [ 'selected' ]
-    this.data.stylesNoAutoShow = [ 'selected' ]
-    this.data.updateAssets = this.updateAssets.bind(this)
-    this.data.overpassFrontend = this.options.overpassFrontend
+    data.feature.appUrl = '#' + this.id + '/{{ id }}'
+    data.styleNoBindPopup = [ 'selected' ]
+    data.stylesNoAutoShow = [ 'selected' ]
+    data.updateAssets = this.updateAssets.bind(this)
+    data.overpassFrontend = this.options.overpassFrontend
 
-    this.layer = new OverpassLayer(this.data)
+    const layer = new OverpassLayer(data)
 
-    this.layer.onLoadStart = (ev) => {
+    layer.onLoadStart = (ev) => {
       this.emit('loadingStart', ev)
     }
-    this.layer.onLoadEnd = (ev) => {
+    layer.onLoadEnd = (ev) => {
       this.emit('loadingEnd', ev)
 
       if (ev.error) {
         console.error('Error loading data from Overpass API: ' + ev.error)
       }
     }
-    this.layer.on('update', (object, ob) => {
+    layer.on('update', (object, ob) => {
       if (!ob.popup || !ob.popup._contentNode || map._popup !== ob.popup) {
         return
       }
 
       this.emit('update', object, ob)
     })
-    this.layer.on('layeradd', () => this.emit('layeradd'))
-    this.layer.on('layerremove', () => this.emit('layerremove'))
-    this.layer.on('add', (ob, data) => this.emit('add', ob, data))
-    this.layer.on('remove', (ob, data) => this.emit('remove', ob, data))
-    this.layer.on('zoomChange', (ob, data) => this.emit('zoomChange', ob, data))
-    this.layer.on('twigData', (ob, data, result) => this.emit('twigData', ob, data, result))
+    layer.on('layeradd', () => this.emit('layeradd'))
+    layer.on('layerremove', () => this.emit('layerremove'))
+    layer.on('add', (ob, data) => this.emit('add', ob, data))
+    layer.on('remove', (ob, data) => this.emit('remove', ob, data))
+    layer.on('zoomChange', (ob, data) => this.emit('zoomChange', ob, data))
+    layer.on('twigData', (ob, data, result) => this.emit('twigData', ob, data, result))
 
     // layer has already been added, add now after initializing
     if (this.map) {
-      this.layer.addTo(this.map)
+      layer.addTo(this.map)
     }
+
+    this.layers.push(layer)
   }
 
   // compatibilty Leaflet Layerswitcher
   _layerAdd (e) {
-    console.log(e.target)
     this.addTo(e.target)
   }
 
   // compatibilty Leaflet Layerswitcher
   onRemove () {
-    this.layer.remove()
+    this.layers.forEach(l => l.remove())
   }
 
   // compatibilty Leaflet Layerswitcher - use emit instead
@@ -215,11 +233,12 @@ class LeafletGeowiki {
   }
 
   recalc () {
-    this.layer.recalc()
+    this.layers.forEach(l => l.recalc())
   }
 
   get (id, callback) {
-    this.layer.get(id, callback)
+    console.error('not implemented yet')
+    // this.layer.get(id, callback)
   }
 
   show (id, options, callback) {
@@ -244,7 +263,7 @@ class LeafletGeowiki {
         return callback(new Error('too many id parts! ' + id))
     }
 
-    this.currentDetails = this.layer.show(id, layerOptions,
+    this.currentDetails = this.layers.forEach(l => l.show(id, layerOptions,
       (err, ob, data) => {
         if (!err) {
           if (!options.hasLocation) {
@@ -259,15 +278,13 @@ class LeafletGeowiki {
 
         callback(err, data)
       }
-    )
+    ))
   }
 
   allMapFeatures (callback) {
-    if (!this.isOpen) {
-      return callback(null, [])
-    }
-
-    let list = Object.values(this.layer.mainlayer.visibleFeatures)
+    let list = this.layers
+      .forEach(l => Object.values(l.mainlayer.visibleFeatures))
+      .flat()
 
     list = list.filter(item => !isTrue(item.data.exclude))
 
@@ -276,8 +293,8 @@ class LeafletGeowiki {
 
   addTo (map) {
     this.map = map
-    if (this.layer) {
-      this.layer.addTo(map)
+    if (this.layers) {
+      this.layers.forEach(l => l.addTo(map))
     }
 
     return this
