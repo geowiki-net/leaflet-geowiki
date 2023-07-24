@@ -4,5 +4,6 @@ import './src/twigFunctions'
 import './src/markers'
 import './src/panes'
 import './src/info'
+import './src/evaluate'
 
 module.exports = LeafletGeowiki

@@ -1,0 +1,30 @@
+import LeafletGeowiki from './LeafletGeowiki'
+const OverpassLayer = require('overpass-layer')
+
+let that = null
+
+LeafletGeowiki.addExtension({
+  id: 'evaluate',
+  initFun: (_that, callback) => {
+    _that.on('renderTemplate', (data) => {
+      that = _that
+    })
+
+    callback()
+  }
+})
+
+OverpassLayer.twig.extendFunction('evaluate', function (tags) {
+  const ob = {
+    id: 'x0',
+    meta: {},
+    tags,
+    type: 'special'
+  }
+
+  if (!that || !that.layers || !that.layers.length) {
+    return console.log('something is not right', that)
+  }
+
+  return that.layers[0].mainlayer.evaluate(ob)
+})

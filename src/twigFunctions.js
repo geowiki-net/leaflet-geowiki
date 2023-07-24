@@ -83,16 +83,6 @@ OverpassLayer.twig.extendFilter('md5', function (value) {
 
   return md5cache[value]
 })
-OverpassLayer.twig.extendFunction('evaluate', function (tags) {
-  const ob = {
-    id: 'x0',
-    meta: {},
-    tags,
-    type: 'special'
-  }
-
-  return global.currentCategory.layer.mainlayer.evaluate(ob)
-})
 function enumerate (list) {
   if (!list) {
     return ''
