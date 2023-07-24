@@ -4,9 +4,8 @@ LeafletGeowiki.addExtension({
   id: 'info',
   initFun: (that, callback) => {
     if (that.data.info) {
-      render(that)
       that.on('zoomChange', () => render(that))
-      that.on('layeradd', () => render(that))
+      that.on('layeradd', () => global.setTimeout(() => render(that), 0))
       that.on('updateOptions', () => render(that))
     }
 
