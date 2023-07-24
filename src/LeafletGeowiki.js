@@ -307,7 +307,7 @@ class LeafletGeowiki {
    * @returns {string} The result
    */
   renderTemplate (template) {
-    const t = OverpassLayer.twig.twig({ data: template, autoescape: true })
+    const t = OverpassLayer.twig.twig({ data: template, autoescape: true, rethrow: true })
 
     const data = {
       layer_id: this.id,
