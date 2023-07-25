@@ -1,6 +1,6 @@
 import OverpassLayer from 'overpass-layer'
 
-const loadClash = {}
+const callbacks = {}
 const cache = {}
 
 function wikidataLoad (id, callback) {
@@ -8,11 +8,10 @@ function wikidataLoad (id, callback) {
     return callback(null, cache[id])
   }
 
-  if (id in loadClash) {
-    loadClash[id].push(callback)
-    return
+  if (id in callbacks) {
+    return callbacks[id].push(callback)
   }
-  loadClash[id] = []
+  callbacks[id] = [callback]
 
   fetch('https://www.wikidata.org/wiki/Special:EntityData/' + id + '.json')
     .then(req => req.json())
@@ -20,17 +19,21 @@ function wikidataLoad (id, callback) {
       if (!result.entities || !result.entities[id]) {
         console.log('invalid result', result)
         cache[id] = false
-        return callback(err, null)
+        return callback(new Error('invalid result'), null)
       }
 
       cache[id] = result.entities[id]
 
-      callback(null, result.entities[id])
+      callbacks[id].forEach(cb => cb(null, result.entities[id]))
+      delete callbacks[id]
+    })
+    .catch(reason => {
+      cache[id] = false
 
-      loadClash[id].forEach(function (d) {
-        d(null, result.entities[id])
+      global.setTimeout(() => {
+        callbacks[id].forEach(cb => cb(reason))
+        delete callbacks[id]
       })
-      delete loadClash[id]
     })
 }
 
