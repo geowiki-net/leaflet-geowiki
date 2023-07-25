@@ -1,8 +1,7 @@
-const OverpassLayer = require('overpass-layer')
+import OverpassLayer from 'overpass-layer'
 
-var httpGet = require('./httpGet')
-var loadClash = {}
-var cache = {}
+const loadClash = {}
+const cache = {}
 
 function wikidataLoad (id, callback) {
   if (id in cache) {
@@ -15,28 +14,24 @@ function wikidataLoad (id, callback) {
   }
   loadClash[id] = []
 
-  httpGet('https://www.wikidata.org/wiki/Special:EntityData/' + id + '.json', {}, function (err, result) {
-    if (err) {
-      return callback(err, null)
-    }
+  fetch('https://www.wikidata.org/wiki/Special:EntityData/' + id + '.json')
+    .then(req => req.json())
+    .then(result => {
+      if (!result.entities || !result.entities[id]) {
+        console.log('invalid result', result)
+        cache[id] = false
+        return callback(err, null)
+      }
 
-    result = JSON.parse(result.body)
+      cache[id] = result.entities[id]
 
-    if (!result.entities || !result.entities[id]) {
-      console.log('invalid result', result)
-      cache[id] = false
-      return callback(err, null)
-    }
+      callback(null, result.entities[id])
 
-    cache[id] = result.entities[id]
-
-    callback(null, result.entities[id])
-
-    loadClash[id].forEach(function (d) {
-      d(null, result.entities[id])
+      loadClash[id].forEach(function (d) {
+        d(null, result.entities[id])
+      })
+      delete loadClash[id]
     })
-    delete loadClash[id]
-  })
 }
 
 module.exports = {

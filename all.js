@@ -5,5 +5,6 @@ import './src/markers'
 import './src/panes'
 import './src/info'
 import './src/evaluate'
+import './src/wikidata'
 
 module.exports = LeafletGeowiki
