@@ -129,6 +129,11 @@ class LeafletGeowiki {
           return l
         })
       }
+
+      // Every layer gets a reference to 'const'
+      layerDefs.forEach(l => {
+        l.const = this.data.const
+      })
     }
 
     this.layers = []
