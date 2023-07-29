@@ -220,11 +220,15 @@ class LeafletGeowiki {
 
   // compatibilty Leaflet Layerswitcher
   onRemove () {
-    this.layers.forEach(l => l.remove())
+    this.remove()
   }
 
   // compatibilty Leaflet Layerswitcher - use emit instead
   fire () {
+  }
+
+  remove () {
+    this.layers.forEach(l => l.onRemove())
   }
 
   updateAssets (div) {
