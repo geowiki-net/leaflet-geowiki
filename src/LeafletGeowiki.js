@@ -109,10 +109,20 @@ class LeafletGeowiki {
       this.data = this.options.style
     } else if (this.options.styleFile) {
       fetch(this.options.styleFile)
-        .then(req => req.text())
+        .then(req => {
+          if (!req.ok) {
+            throw new Error(req.statusText)
+          }
+
+          return req.text()
+        })
         .then(body => {
           this.data = yaml.load(body)
           callback()
+        })
+        .catch(err => {
+          const error = new Error('Error loading style file: ' + err.message)
+          global.setTimeout(() => callback(error), 0)
         })
       return
     }
