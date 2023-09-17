@@ -78,7 +78,11 @@ class LeafletGeowiki {
     this.isLoading = 0
 
     this.loadStyle((err) => {
-      if (err) { return console.error(err) }
+      if (err) {
+        this.emit('error', err)
+        return console.error(err)
+      }
+
       this.initExtensions()
     })
   }
