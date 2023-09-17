@@ -242,7 +242,7 @@ class LeafletGeowiki {
   }
 
   remove () {
-    this.layers.forEach(l => l.onRemove())
+    this.layers && this.layers.forEach(l => l.onRemove())
   }
 
   updateAssets (div) {
