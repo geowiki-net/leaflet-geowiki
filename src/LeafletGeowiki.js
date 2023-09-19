@@ -117,6 +117,7 @@ class LeafletGeowiki {
           return req.text()
         })
         .then(body => {
+          this.source = body
           this.data = yaml.load(body)
           callback()
         })
