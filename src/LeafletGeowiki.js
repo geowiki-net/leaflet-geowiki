@@ -84,6 +84,8 @@ class LeafletGeowiki {
       }
 
       this.initExtensions()
+
+      this.emit('load')
     })
   }
 
