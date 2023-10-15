@@ -6,10 +6,8 @@ LeafletGeowiki.addExtension({
   initFun: (that, callback) => {
     that.once('layeradd', () => {
       if (that.options.list) {
-        that.layers.forEach(layer => {
-          const list = new OverpassLayer.List(layer)
-          list.addTo(that.options.list.dom)
-        })
+        const list = new OverpassLayer.List(that.layers)
+        list.addTo(that.options.list.dom)
       }
     })
 
