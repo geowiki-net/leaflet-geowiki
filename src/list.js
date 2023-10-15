@@ -4,10 +4,12 @@ import OverpassLayer from 'overpass-layer'
 LeafletGeowiki.addExtension({
   id: 'list',
   initFun: (that, callback) => {
-    that.once('layeradd', (layer) => {
+    that.once('layeradd', () => {
       if (that.options.list) {
-        const list = new OverpassLayer.List(layer)
-        list.addTo(that.options.list.dom)
+        that.layers.forEach(layer => {
+          const list = new OverpassLayer.List(layer)
+          list.addTo(that.options.list.dom)
+        })
       }
     })
 
