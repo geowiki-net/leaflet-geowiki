@@ -8,11 +8,13 @@
   <style>
 #map { position: absolute; left: 0; right: 0; top: 0; bottom: 0 }
 #info { position: absolute; max-width: 10em; left: 1em; bottom: 1em; z-index: 1000; background: white; }
+#list { position: absolute; width: 20em; left: 1em; bottom: 5em; top: 5em; overflow-y: auto; z-index: 1000; background: white; }
   </style>
 </head>
 <body>
   <div id='map'></div>
   <div id='info'></div>
+  <div id='list'></div>
 </body>
 <script>
 var options = {}
@@ -34,7 +36,9 @@ var geowiki = new LeafletGeowiki({
   overpassFrontend,
   styleFile: 'example.yaml',
   // show map info (if available)
-  info: { dom: document.getElementById('info') }
+  info: { dom: document.getElementById('info') },
+  // show list of map items
+  list: { dom: document.getElementById('list') }
 }).addTo(map)
 
 // We could also add the map info with this command

@@ -6,5 +6,6 @@ import './src/panes'
 import './src/info'
 import './src/evaluate'
 import './src/wikidata'
+import './src/list'
 
 module.exports = LeafletGeowiki
