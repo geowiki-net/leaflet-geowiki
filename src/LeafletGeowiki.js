@@ -155,6 +155,11 @@ class LeafletGeowiki {
 
     this.layers = []
     layerDefs.forEach(def => this.initLayer(def))
+
+    // layer has already been added, add now after initializing
+    if (this.map) {
+      this.layers.forEach(layer => layer.addTo(this.map))
+    }
   }
 
   initLayer (data) {
@@ -193,6 +198,7 @@ class LeafletGeowiki {
     data.overpassFrontend = this.options.overpassFrontend
 
     const layer = new OverpassLayer(data)
+    this.layers.push(layer)
 
     layer.onLoadStart = (ev) => {
       if (this.isLoading++ === 0) {
@@ -221,13 +227,6 @@ class LeafletGeowiki {
     layer.on('remove', (ob, data) => this.emit('remove', ob, data))
     layer.on('zoomChange', (ob, data) => this.emit('zoomChange', ob, data))
     layer.on('twigData', (ob, data, result) => this.emit('twigData', ob, data, result))
-
-    // layer has already been added, add now after initializing
-    if (this.map) {
-      layer.addTo(this.map)
-    }
-
-    this.layers.push(layer)
   }
 
   // compatibilty Leaflet Layerswitcher
