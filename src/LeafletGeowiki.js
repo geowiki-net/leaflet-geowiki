@@ -221,12 +221,12 @@ class LeafletGeowiki {
 
       this.emit('update', object, ob)
     })
-    layer.on('layeradd', () => this.emit('layeradd'))
-    layer.on('layerremove', () => this.emit('layerremove'))
-    layer.on('add', (ob, data) => this.emit('add', ob, data))
-    layer.on('remove', (ob, data) => this.emit('remove', ob, data))
-    layer.on('zoomChange', (ob, data) => this.emit('zoomChange', ob, data))
-    layer.on('twigData', (ob, data, result) => this.emit('twigData', ob, data, result))
+    layer.on('layeradd', () => this.emit('layeradd', layer))
+    layer.on('layerremove', () => this.emit('layerremove', layer))
+    layer.on('add', (ob, data) => this.emit('add', ob, data, layer))
+    layer.on('remove', (ob, data) => this.emit('remove', ob, data, layer))
+    layer.on('zoomChange', (ob, data) => this.emit('zoomChange', ob, data, layer))
+    layer.on('twigData', (ob, data, result) => this.emit('twigData', ob, data, result, layer))
   }
 
   // compatibilty Leaflet Layerswitcher
