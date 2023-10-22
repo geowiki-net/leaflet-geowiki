@@ -156,6 +156,8 @@ class LeafletGeowiki {
     this.layers = []
     layerDefs.forEach(def => this.initLayer(def))
 
+    this.emit('initDone')
+
     // layer has already been added, add now after initializing
     if (this.map) {
       this.layers.forEach(layer => layer.addTo(this.map))
