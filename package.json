@@ -34,7 +34,7 @@
     "openstreetmap-date-format": "^0.4.0",
     "openstreetmap-date-parser": "^0.1.2",
     "openstreetmap-tag-translations": "github:plepe/openstreetmap-tag-translations",
-    "overpass-layer": "^3.5.0",
+    "overpass-layer": "^3.6.0-rc0",
     "query-string": "^8.1.0",
     "sprintf-js": "^1.1.2"
   },
