@@ -28,8 +28,8 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-// create link to overpass database (this could be a file, e.g. data.osm)
-const overpassFrontend = new OverpassFrontend('data.osm')
+// create link to overpass database (this could be a file too, e.g. data.osm or data.osm.bz2)
+const overpassFrontend = new OverpassFrontend('//overpass-api.de/api/interpreter')
 
 // Initialize Geowiki viewer
 var geowiki = new LeafletGeowiki({
