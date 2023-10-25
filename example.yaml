@@ -1,8 +1,21 @@
+# Here you can define zoom-level depending queries. To query several tags,
+# use: '(nwr[amenity];nwr[leisure];)'
 query:
+  # From zoom level 15 on, query for nodes, ways and relations with
+  # any amenity tag
   15: 'nwr[amenity]'
+
+# What should happen with each feature:
 feature:
   # As description use the translation of amentiy-tag
   description: |
     {{ tagTrans('amenity', tags.amenity) }}
+
+  # A style
+  style:
+    color: |
+      {{ tags.amenity == 'bench' ? '#ff0000' : '#0000ff' }}
+
+# Map key
 info: |
   This layer shows all amenities in the current map view.
