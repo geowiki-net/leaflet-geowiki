@@ -162,6 +162,12 @@ class LeafletGeowiki {
     if (this.map) {
       this.layers.forEach(layer => layer.addTo(this.map))
     }
+
+    // apply a previously set filter
+    if (this._filter) {
+      this.layers.forEach(layer => layer.setFilter(this._filter))
+      delete(this._filter)
+    }
   }
 
   initLayer (data) {
@@ -361,6 +367,18 @@ class LeafletGeowiki {
   setOption (key, value) {
     this.options[key] = value
     this.emit('updateOptions', key)
+  }
+
+  /**
+   * Add an additional filter to all layers.
+   * @param {string} filter An Overpass Query, e.g. 'nwr[cuisine=kebab]'
+   */
+  setFilter (filter) {
+    if (this.layers) {
+      this.layers.forEach(layer => layer.setFilter(filter))
+    } else {
+      this._filter = filter
+    }
   }
 }
 
