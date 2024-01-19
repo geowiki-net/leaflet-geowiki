@@ -1,6 +1,6 @@
 import each from 'async/each'
 
-module.exports = function initExtensions (object, func, extensions, callback) {
+module.exports = function initExtensions (object, func, extensions, callback, doneExt = []) {
   if (Array.isArray(extensions)) {
     const _e = extensions
     extensions = {}
@@ -11,12 +11,12 @@ module.exports = function initExtensions (object, func, extensions, callback) {
 
   const loadableExtensions = Object.entries(extensions)
     .filter(([id, extension]) => {
-      if (extension.done) {
+      if (doneExt.includes(extension)) {
         return false
       }
 
       if (extension.requireExtensions && extension.requireExtensions.length) {
-        if (!extension.requireExtensions.filter(rId => extensions[rId] && extensions[rId].done).length) {
+        if (!extension.requireExtensions.filter(rId => doneExt.includes(extensions[rId])).length) {
           return false
         }
       }
@@ -28,9 +28,10 @@ module.exports = function initExtensions (object, func, extensions, callback) {
     return callback()
   }
 
+  console.log(loadableExtensions)
   each(loadableExtensions, ([id, extension], done) => {
     if (!extension[func]) {
-      extension.done = true
+      doneExt.push(extension)
       return done()
     }
 
@@ -38,11 +39,10 @@ module.exports = function initExtensions (object, func, extensions, callback) {
       try {
         extension[func](object)
       } catch (err) {
-        console.log('error init', id, err)
         return done(err)
       }
 
-      extension.done = true
+      doneExt.push(extension)
       return done()
     }
 
@@ -52,11 +52,11 @@ module.exports = function initExtensions (object, func, extensions, callback) {
         return done(err)
       }
 
-      extension.done = true
+      doneExt.push(extension)
       return done()
     })
   }, (err) => {
     if (err) { return callback(err) }
-    initExtensions(object, func, extensions, callback)
+    initExtensions(object, func, extensions, callback, doneExt)
   })
 }
