@@ -1,6 +1,14 @@
 import each from 'async/each'
 
 module.exports = function initExtensions (object, func, extensions, callback) {
+  if (Array.isArray(extensions)) {
+    const _e = extensions
+    extensions = {}
+    _e.forEach((e, i) => {
+      extensions[e.id ?? i] = e
+    })
+  }
+
   const loadableExtensions = Object.entries(extensions)
     .filter(([id, extension]) => {
       if (extension.done) {
