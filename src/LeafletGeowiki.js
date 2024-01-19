@@ -1,9 +1,8 @@
-/* global openstreetbrowserPrefix */
 /* eslint camelcase: 0 */
+import initExtensions from './initExtensions'
 const OverpassLayer = require('overpass-layer')
+const OverpassFrontend = require('overpass-frontend')
 const isTrue = require('overpass-layer/src/isTrue')
-const OverpassLayerList = require('overpass-layer').List
-const queryString = require('query-string')
 const ee = require('event-emitter')
 const yaml = require('js-yaml')
 const modulekitLang = require('modulekit-lang')
@@ -11,7 +10,6 @@ const async = {
   each: require('async/each'),
   parallel: require('async/parallel')
 }
-import initExtensions from './initExtensions'
 
 const listTemplate = '<a href="{{ object.appUrl|default("#") }}">' +
   '<div class="marker">' +
@@ -159,7 +157,7 @@ class LeafletGeowiki {
     // apply a previously set filter
     if (this._filter) {
       this.layers.forEach(layer => layer.setFilter(this._filter))
-      delete(this._filter)
+      delete (this._filter)
     }
   }
 

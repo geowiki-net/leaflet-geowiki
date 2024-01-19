@@ -37,8 +37,7 @@ module.exports = function initExtensions (object, func, extensions, callback) {
     if (extension[func].length < 2) {
       try {
         extension[func](object)
-      }
-      catch (err) {
+      } catch (err) {
         console.log('error init', id, err)
         return done(err)
       }
