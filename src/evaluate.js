@@ -5,7 +5,7 @@ let that = null
 
 LeafletGeowiki.addExtension({
   id: 'evaluate',
-  initFun: (_that, callback) => {
+  layerInit: (_that, callback) => {
     _that.on('twigData', (data) => {
       that = _that
     })

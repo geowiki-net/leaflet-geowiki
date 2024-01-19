@@ -3,7 +3,7 @@ import yaml from 'js-yaml'
 
 LeafletGeowiki.addExtension({
   id: 'panes',
-  initFun: (that, callback) => {
+  layerInit: (that, callback) => {
     that.once('layeradd', () => {
       if (that.data.panes) {
         if (typeof that.data.panes === 'string') {

@@ -2,7 +2,7 @@ import LeafletGeowiki from './LeafletGeowiki'
 
 LeafletGeowiki.addExtension({
   id: 'info',
-  initFun: (that, callback) => {
+  layerInit: (that, callback) => {
     if (that.data.info) {
       that.on('zoomChange', () => render(that))
       that.on('layeradd', () => global.setTimeout(() => render(that), 0))

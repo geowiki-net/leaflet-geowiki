@@ -47,7 +47,7 @@ module.exports = {
 
 LeafletGeowiki.addExtension({
   id: 'markers',
-  initFun: (that, callback) => {
+  layerInit: (that, callback) => {
     that.on('updateImageSrc', updateImageSrc)
     callback()
   }

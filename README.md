@@ -44,5 +44,5 @@ The following options are available:
 
 Static Methods:
 * addExtension({ ... }): Add an extension to LeafletGeowiki. The following options can be passed:
-  * initFun(object, callback): a function which will be called when a LeafletGeowiki object is initialized (you could hook to events in this function).
+  * layerInit(layer, callback): a function which will be called when a LeafletGeowiki layer is initialized (you could hook to events in this function).
 * setOption(option, value): set the specified option to the specified value. The 'updateOptions' event (with: key) will be emitted.
