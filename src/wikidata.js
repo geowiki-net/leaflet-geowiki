@@ -1,12 +1,7 @@
 import OverpassLayer from 'overpass-layer'
-import LeafletGeowiki from './LeafletGeowiki'
 
 const callbacks = {}
 const cache = {}
-
-LeafletGeowiki.addExtension({
-  id: 'wikidata'
-})
 
 function wikidataLoad (id, callback) {
   if (id in cache) {
@@ -43,6 +38,7 @@ function wikidataLoad (id, callback) {
 }
 
 module.exports = {
+  id: 'wikidata',
   load: wikidataLoad
 }
 

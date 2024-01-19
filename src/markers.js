@@ -1,6 +1,6 @@
+import LeafletGeowiki from './LeafletGeowiki'
 const markers = require('openstreetbrowser-markers')
 const OverpassLayer = require('overpass-layer')
-const LeafletGeowiki = require('./LeafletGeowiki')
 
 LeafletGeowiki.defaultValues.markerSymbol = '{{ markerPointer({})|raw }}'
 LeafletGeowiki.defaultValues.listMarkerSymbol = '{{ markerCircle({})|raw }}'
@@ -39,16 +39,13 @@ function updateImageSrc (img, src) {
 }
 
 module.exports = {
+  id: 'markers',
   line: markers.line,
   circle: markers.circle,
   pointer: markers.pointer,
-  polygon: markers.polygon
-}
-
-LeafletGeowiki.addExtension({
-  id: 'markers',
+  polygon: markers.polygon,
   layerInit: (that, callback) => {
     that.on('updateImageSrc', updateImageSrc)
     callback()
   }
-})
+}

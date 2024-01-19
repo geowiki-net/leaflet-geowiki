@@ -1,7 +1,6 @@
-import LeafletGeowiki from './LeafletGeowiki'
 import yaml from 'js-yaml'
 
-LeafletGeowiki.addExtension({
+module.exports = {
   id: 'panes',
   layerInit: (that, callback) => {
     that.once('layeradd', () => {
@@ -25,4 +24,4 @@ LeafletGeowiki.addExtension({
 
     callback()
   }
-})
+}

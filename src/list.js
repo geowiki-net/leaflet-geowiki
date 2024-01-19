@@ -1,7 +1,6 @@
-import LeafletGeowiki from './LeafletGeowiki'
 import OverpassLayer from 'overpass-layer'
 
-LeafletGeowiki.addExtension({
+module.exports = {
   id: 'list',
   layerInit: (that, callback) => {
     that.once('layeradd', () => {
@@ -13,4 +12,4 @@ LeafletGeowiki.addExtension({
 
     callback()
   }
-})
+}

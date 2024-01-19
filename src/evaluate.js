@@ -1,9 +1,8 @@
-import LeafletGeowiki from './LeafletGeowiki'
 const OverpassLayer = require('overpass-layer')
 
 let that = null
 
-LeafletGeowiki.addExtension({
+module.exports = {
   id: 'evaluate',
   layerInit: (_that, callback) => {
     _that.on('twigData', (data) => {
@@ -12,7 +11,7 @@ LeafletGeowiki.addExtension({
 
     callback()
   }
-})
+}
 
 OverpassLayer.twig.extendFunction('evaluate', function (tags) {
   const ob = {

@@ -13,8 +13,6 @@ const async = {
 }
 import initExtensions from './initExtensions'
 
-const extensions = []
-
 const listTemplate = '<a href="{{ object.appUrl|default("#") }}">' +
   '<div class="marker">' +
   '{% if object.templateMarkerSymbol|default(object.markerSymbol)|trim == "line" %}' +
@@ -93,7 +91,7 @@ class LeafletGeowiki {
   initExtensions () {
     async.parallel([
       (done) => modulekitLang.set(this.options.language, {}, done),
-      (done) => initExtensions(this, 'layerInit', extensions, done)
+      (done) => initExtensions(this, 'layerInit', LeafletGeowiki.extensions, done)
     ], (err) => {
       if (err) { return console.error(err) }
       this.init()
@@ -378,9 +376,10 @@ class LeafletGeowiki {
 }
 
 LeafletGeowiki.defaultValues = defaultValues
+LeafletGeowiki.extensions = []
 
 LeafletGeowiki.addExtension = (extension) => {
-  extensions.push(extension)
+  LeafletGeowiki.extensions.push(extension)
 }
 
 ee(LeafletGeowiki.prototype)

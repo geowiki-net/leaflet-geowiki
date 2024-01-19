@@ -1,8 +1,7 @@
-import LeafletGeowiki from './LeafletGeowiki'
-
-LeafletGeowiki.addExtension({
+module.exports = {
   id: 'info',
   layerInit: (that, callback) => {
+    console.log('info init')
     if (that.data.info) {
       that.on('zoomChange', () => render(that))
       that.on('layeradd', () => global.setTimeout(() => render(that), 0))
@@ -11,7 +10,7 @@ LeafletGeowiki.addExtension({
 
     callback()
   }
-})
+}
 
 function render (that) {
   if (!that.options.info || !that.options.info.dom) { return }
