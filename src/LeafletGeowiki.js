@@ -11,6 +11,7 @@ const async = {
   each: require('async/each'),
   parallel: require('async/parallel')
 }
+import initExtensions from './initExtensions'
 
 const extensions = []
 
@@ -92,13 +93,7 @@ class LeafletGeowiki {
   initExtensions () {
     async.parallel([
       (done) => modulekitLang.set(this.options.language, {}, done),
-      (done) => async.each(extensions, (extension, done) => {
-        if (extension.initFun) {
-          extension.initFun(this, done)
-        } else {
-          done()
-        }
-      }, done)
+      (done) => initExtensions(this, 'initFun', extensions, done)
     ], (err) => {
       if (err) { return console.error(err) }
       this.init()
