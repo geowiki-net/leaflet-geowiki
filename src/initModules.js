@@ -25,10 +25,21 @@ module.exports = function initModules (object, func, modules, callback, doneModu
     })
 
   if (!loadableModules.length) {
+    const notLoadedModules = Object.keys(modules)
+      .filter(moduleId => !doneModules.includes(modules[moduleId]))
+
+    if (notLoadedModules.length) {
+      return callback(new Error('Some modules not loaded due to missing dependencies: ' +
+        notLoadedModules.map(moduleId => {
+          const module = modules[moduleId]
+
+          return moduleId + ' (' + module.requireModules.filter(rId => !doneModules.includes(modules[rId])) + ')'
+        }).join(', ')))
+    }
+
     return callback()
   }
 
-  console.log(loadableModules)
   each(loadableModules, ([id, module], done) => {
     if (!module[func]) {
       doneModules.push(module)
