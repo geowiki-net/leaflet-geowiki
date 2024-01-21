@@ -1,4 +1,4 @@
-const OverpassLayer = require('overpass-layer')
+const Twig = require('twig')
 
 const formatter = [
   {
@@ -44,12 +44,12 @@ let defaultTemplate
 
 function tagsDisplay (tags) {
   if (!compiled) {
-    defaultTemplate = OverpassLayer.twig.twig({ data: '{{ value }}', autoescape: true })
+    defaultTemplate = Twig.twig({ data: '{{ value }}', autoescape: true })
     for (const i in formatter) {
       if (formatter[i].format) {
-        formatter[i].template = OverpassLayer.twig.twig({ data: formatter[i].format, autoescape: true })
+        formatter[i].template = Twig.twig({ data: formatter[i].format, autoescape: true })
       } else {
-        formatter[i].template = OverpassLayer.twig.twig({ data: '<a target="_blank" href="' + formatter[i].link + '">{{ value }}</a>', autoescape: true })
+        formatter[i].template = Twig.twig({ data: '<a target="_blank" href="' + formatter[i].link + '">{{ value }}</a>', autoescape: true })
       }
     }
 

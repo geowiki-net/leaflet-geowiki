@@ -1,29 +1,29 @@
 /* eslint camelcase:0 */
 const sprintf = require('sprintf-js')
 const modulekitLang = require('modulekit-lang')
-const OverpassLayer = require('overpass-layer')
+const Twig = require('twig')
 let tagLang = null
 
-OverpassLayer.twig.extendFunction('keyTrans', function () {
+Twig.extendFunction('keyTrans', function () {
   return tagTranslationsTrans.call(this, arguments[0], undefined, arguments[1])
 })
-OverpassLayer.twig.extendFunction('tagTrans', function () {
+Twig.extendFunction('tagTrans', function () {
   return tagTranslationsTrans.apply(this, arguments)
 })
-OverpassLayer.twig.extendFunction('tagTransList', function () {
+Twig.extendFunction('tagTransList', function () {
   return tagTranslationsTransList.apply(this, arguments)
 })
-OverpassLayer.twig.extendFunction('localizedTag', function (tags, id) {
+Twig.extendFunction('localizedTag', function (tags, id) {
   if (tagLang && id + ':' + tagLang in tags) {
     return tags[id + ':' + tagLang]
   }
 
   return tags[id]
 })
-OverpassLayer.twig.extendFunction('trans', function () {
+Twig.extendFunction('trans', function () {
   return modulekitLang.lang.apply(this, arguments)
 })
-OverpassLayer.twig.extendFunction('isTranslated', function (str) {
+Twig.extendFunction('isTranslated', function (str) {
   return tagTranslationsIsTranslated(str)
 })
 

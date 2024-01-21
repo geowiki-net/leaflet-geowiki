@@ -1,4 +1,4 @@
-import OverpassLayer from 'overpass-layer'
+import Twig from 'twig'
 
 const callbacks = {}
 const cache = {}
@@ -42,7 +42,7 @@ module.exports = {
   load: wikidataLoad
 }
 
-OverpassLayer.twig.extendFilter('wikidataEntity', function (value, param) {
+Twig.extendFilter('wikidataEntity', function (value, param) {
   const ob = global.currentMapFeature
   if (value in cache) {
     return cache[value]

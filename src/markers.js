@@ -1,10 +1,10 @@
 const markers = require('openstreetbrowser-markers')
-const OverpassLayer = require('overpass-layer')
+const Twig = require('twig')
 
-OverpassLayer.twig.extendFunction('markerLine', (data, options) => OverpassLayer.twig.filters.raw(markers.line(data, options)))
-OverpassLayer.twig.extendFunction('markerCircle', (data, options) => OverpassLayer.twig.filters.raw(markers.circle(data, options)))
-OverpassLayer.twig.extendFunction('markerPointer', (data, options) => OverpassLayer.twig.filters.raw(markers.pointer(data, options)))
-OverpassLayer.twig.extendFunction('markerPolygon', (data, options) => OverpassLayer.twig.filters.raw(markers.polygon(data, options)))
+Twig.extendFunction('markerLine', (data, options) => OverpassLayer.twig.filters.raw(markers.line(data, options)))
+Twig.extendFunction('markerCircle', (data, options) => OverpassLayer.twig.filters.raw(markers.circle(data, options)))
+Twig.extendFunction('markerPointer', (data, options) => OverpassLayer.twig.filters.raw(markers.pointer(data, options)))
+Twig.extendFunction('markerPolygon', (data, options) => OverpassLayer.twig.filters.raw(markers.polygon(data, options)))
 
 function updateImageSrc (img, src) {
   if (src.match(/^(marker):.*/)) {

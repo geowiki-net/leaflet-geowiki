@@ -1,4 +1,4 @@
-const OverpassLayer = require('overpass-layer')
+const Twig = require('twig')
 
 let that = null
 
@@ -13,7 +13,7 @@ module.exports = {
   }
 }
 
-OverpassLayer.twig.extendFunction('evaluate', function (tags) {
+Twig.extendFunction('evaluate', function (tags) {
   const ob = {
     id: 'x0',
     meta: {},

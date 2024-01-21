@@ -1,4 +1,4 @@
-const OverpassLayer = require('overpass-layer')
+const Twig = require('twig')
 const colorInterpolate = require('color-interpolate')
 const osmParseDate = require('openstreetmap-date-parser')
 const osmFormatDate = require('openstreetmap-date-format')
@@ -8,7 +8,7 @@ const yaml = require('js-yaml')
 
 const md5cache = {}
 
-OverpassLayer.twig.extendFunction('tagsPrefix', function (tags, prefix) {
+Twig.extendFunction('tagsPrefix', function (tags, prefix) {
   const ret = {}
   let count = 0
 
@@ -26,14 +26,14 @@ OverpassLayer.twig.extendFunction('tagsPrefix', function (tags, prefix) {
   return ret
 })
 
-OverpassLayer.twig.extendFilter('websiteUrl', function (value) {
+Twig.extendFilter('websiteUrl', function (value) {
   if (value.match(/^https?:\/\//)) {
     return value
   }
 
   return 'http://' + value
 })
-OverpassLayer.twig.extendFilter('matches', function (value, param) {
+Twig.extendFilter('matches', function (value, param) {
   if (value === null || typeof value === 'undefined') {
     return false
   }
@@ -45,27 +45,27 @@ OverpassLayer.twig.extendFilter('matches', function (value, param) {
   const r = new RegExp(...param)
   return value.toString().match(r)
 })
-OverpassLayer.twig.extendFilter('natsort', function (values, options) {
+Twig.extendFilter('natsort', function (values, options) {
   return values.sort(natsort(options))
 })
-OverpassLayer.twig.extendFilter('unique', function (values, options) {
+Twig.extendFilter('unique', function (values, options) {
   // source: https://stackoverflow.com/a/14438954
   function onlyUnique (value, index, self) {
     return self.indexOf(value) === index
   }
   return values.filter(onlyUnique)
 })
-OverpassLayer.twig.extendFunction('colorInterpolate', function (map, value) {
+Twig.extendFunction('colorInterpolate', function (map, value) {
   const colormap = colorInterpolate(map)
   return colormap(value)
 })
-OverpassLayer.twig.extendFilter('osmParseDate', function (value) {
+Twig.extendFilter('osmParseDate', function (value) {
   return osmParseDate(value)
 })
-OverpassLayer.twig.extendFilter('osmFormatDate', function (value, param) {
+Twig.extendFilter('osmFormatDate', function (value, param) {
   return osmFormatDate(value, param.length ? param[0] : {})
 })
-OverpassLayer.twig.extendFilter('md5', function (value) {
+Twig.extendFilter('md5', function (value) {
   if (!(value in md5cache)) {
     md5cache[value] = md5(value)
   }
@@ -97,9 +97,9 @@ function enumerate (list) {
 
   return ''
 }
-OverpassLayer.twig.extendFunction('enumerate', (list) => enumerate(list))
-OverpassLayer.twig.extendFilter('enumerate', (list) => enumerate(list))
-OverpassLayer.twig.extendFilter('ksort', (list) => {
+Twig.extendFunction('enumerate', (list) => enumerate(list))
+Twig.extendFilter('enumerate', (list) => enumerate(list))
+Twig.extendFilter('ksort', (list) => {
   if (Array.isArray(list)) {
     return list
   }
@@ -110,10 +110,10 @@ OverpassLayer.twig.extendFilter('ksort', (list) => {
   result._keys = keys
   return result
 })
-OverpassLayer.twig.extendFunction('debug', function () {
+Twig.extendFunction('debug', function () {
   console.log.apply(null, arguments)
 })
-OverpassLayer.twig.extendFilter('debug', function (value, param) {
+Twig.extendFilter('debug', function (value, param) {
   if (param) {
     console.log.apply(null, [value, ...param])
   } else {
@@ -121,7 +121,7 @@ OverpassLayer.twig.extendFilter('debug', function (value, param) {
   }
   return value
 })
-OverpassLayer.twig.extendFilter('json_pp', function (value, param) {
+Twig.extendFilter('json_pp', function (value, param) {
   const options = param[0] || {}
 
   if (value === 'undefined') {
@@ -132,7 +132,7 @@ OverpassLayer.twig.extendFilter('json_pp', function (value, param) {
 
   return JSON.stringify(value, null, 'indent' in options ? ' '.repeat(options.indent) : '  ')
 })
-OverpassLayer.twig.extendFilter('yaml', function (value, param) {
+Twig.extendFilter('yaml', function (value, param) {
   const options = param[0] || {}
 
   value = twigClear(value)
