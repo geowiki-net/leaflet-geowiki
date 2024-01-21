@@ -191,6 +191,8 @@ class LeafletGeowiki {
   }
 
   initLayer (data) {
+    this.emit('defaultValues', defaultValues)
+
     // set undefined data properties from defaultValues
     for (const k1 in defaultValues) {
       if (!(k1 in data)) {
