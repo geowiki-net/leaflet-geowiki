@@ -6,10 +6,6 @@ const isTrue = require('overpass-layer/src/isTrue')
 const ee = require('event-emitter')
 const yaml = require('js-yaml')
 const semver = require('semver')
-const async = {
-  each: require('async/each'),
-  parallel: require('async/parallel')
-}
 
 const listTemplate = '<a href="{{ object.appUrl|default("#") }}">' +
   '<div class="marker">' +
@@ -87,10 +83,9 @@ class LeafletGeowiki {
   }
 
   initModules () {
-    async.parallel([
-      (done) => initModules(this, 'layerInit', LeafletGeowiki.modules, done)
-    ], (err) => {
+    initModules(this, 'layerInit', LeafletGeowiki.modules, (err) => {
       if (err) { return console.error(err) }
+
       this.init()
     })
   }
