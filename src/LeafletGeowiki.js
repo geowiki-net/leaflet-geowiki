@@ -404,7 +404,6 @@ class LeafletGeowiki {
   }
 }
 
-LeafletGeowiki.defaultValues = defaultValues
 LeafletGeowiki.modules = []
 
 LeafletGeowiki.addModule = (module) => {
