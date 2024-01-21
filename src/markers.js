@@ -1,9 +1,5 @@
-import LeafletGeowiki from './LeafletGeowiki'
 const markers = require('openstreetbrowser-markers')
 const OverpassLayer = require('overpass-layer')
-
-LeafletGeowiki.defaultValues.markerSymbol = '{{ markerPointer({})|raw }}'
-LeafletGeowiki.defaultValues.listMarkerSymbol = '{{ markerCircle({})|raw }}'
 
 OverpassLayer.twig.extendFunction('markerLine', (data, options) => OverpassLayer.twig.filters.raw(markers.line(data, options)))
 OverpassLayer.twig.extendFunction('markerCircle', (data, options) => OverpassLayer.twig.filters.raw(markers.circle(data, options)))
@@ -46,6 +42,11 @@ module.exports = {
   polygon: markers.polygon,
   layerInit: (that, callback) => {
     that.on('updateImageSrc', updateImageSrc)
+    that.on('defaultValues', defaultValues => {
+      defaultValues.markerSymbol = '{{ markerPointer({})|raw }}'
+      defaultValues.listMarkerSymbol = '{{ markerCircle({})|raw }}'
+    })
+
     callback()
   }
 }

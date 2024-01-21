@@ -1,5 +1,4 @@
 import LeafletGeowiki from './src/LeafletGeowiki'
-import './src/tagTranslations'
 import './src/twigFunctions'
 
 const modules = [
@@ -9,6 +8,7 @@ const modules = [
   require('./src/markers'),
   require('./src/panes'),
   require('./src/wikidata'),
+  require('./src/tagTranslations'),
   require('geowiki-module-opening-hours'),
 ]
 
