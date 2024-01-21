@@ -8,7 +8,8 @@ const extensions = [
   require('./src/list'),
   require('./src/markers'),
   require('./src/panes'),
-  require('./src/wikidata')
+  require('./src/wikidata'),
+  require('geowiki-module-opening-hours')
 ]
 
 LeafletGeowiki.extensions = [...LeafletGeowiki.extensions, ...extensions]

@@ -16,6 +16,11 @@ feature:
     color: |
       {{ tags.amenity == 'bench' ? '#ff0000' : '#0000ff' }}
 
+  body: |
+    {{ tags.opening_hours }}<br>
+    {% if tags.opening_hours %}
+    {{ openingHoursState(tags.opening_hours) }}
+    {% endif %}
 # Map key
 info: |
   This layer shows all amenities in the current map view.

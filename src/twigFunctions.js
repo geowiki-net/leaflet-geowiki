@@ -1,5 +1,4 @@
 const OverpassLayer = require('overpass-layer')
-const OpeningHours = require('opening_hours')
 const colorInterpolate = require('color-interpolate')
 const osmParseDate = require('openstreetmap-date-parser')
 const osmFormatDate = require('openstreetmap-date-format')
@@ -27,16 +26,6 @@ OverpassLayer.twig.extendFunction('tagsPrefix', function (tags, prefix) {
   return ret
 })
 
-OverpassLayer.twig.extendFunction('openingHoursState', function (openingHours) {
-  try {
-    var oh = new OpeningHours(openingHours)
-  } catch (err) {
-    console.log('Error in opening_hours: ' + err)
-    return 'unknown'
-  }
-
-  return oh.getStateString(new Date(), true)
-})
 OverpassLayer.twig.extendFilter('websiteUrl', function (value) {
   if (value.match(/^https?:\/\//)) {
     return value

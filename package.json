@@ -25,11 +25,11 @@
   "dependencies": {
     "browserify-css": "^0.15.0",
     "color-interpolate": "^1.0.5",
+    "geowiki-module-opening-hours": "github:geowiki-net/geowiki-module-opening-hours",
     "js-yaml": "^4.1.0",
     "md5": "^2.3.0",
     "modulekit-lang": "github:plepe/modulekit-lang#browserify",
     "natsort": "^2.0.3",
-    "opening_hours": "^3.8.0",
     "openstreetbrowser-markers": "^1.0.0",
     "openstreetmap-date-format": "^0.4.0",
     "openstreetmap-date-parser": "^0.1.2",
