@@ -1,4 +1,4 @@
-# Extension 'panes'
+# Module 'panes'
 Let stylesheets add panes
 
 ## Example

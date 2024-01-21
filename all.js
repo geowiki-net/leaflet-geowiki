@@ -2,16 +2,16 @@ import LeafletGeowiki from './src/LeafletGeowiki'
 import './src/tagTranslations'
 import './src/twigFunctions'
 
-const extensions = [
+const modules = [
   require('./src/evaluate'),
   require('./src/info'),
   require('./src/list'),
   require('./src/markers'),
   require('./src/panes'),
   require('./src/wikidata'),
-  require('geowiki-module-opening-hours')
+  require('geowiki-module-opening-hours'),
 ]
 
-LeafletGeowiki.extensions = [...LeafletGeowiki.extensions, ...extensions]
+LeafletGeowiki.modules = [...LeafletGeowiki.modules, ...modules]
 
 module.exports = LeafletGeowiki

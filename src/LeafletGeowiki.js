@@ -1,5 +1,5 @@
 /* eslint camelcase: 0 */
-import initExtensions from './initExtensions'
+import initModules from './initModules'
 const OverpassLayer = require('overpass-layer')
 const OverpassFrontend = require('overpass-frontend')
 const isTrue = require('overpass-layer/src/isTrue')
@@ -80,16 +80,16 @@ class LeafletGeowiki {
         return console.error(err)
       }
 
-      this.initExtensions()
+      this.initModules()
 
       this.emit('load')
     })
   }
 
-  initExtensions () {
+  initModules () {
     async.parallel([
       (done) => modulekitLang.set(this.options.language, {}, done),
-      (done) => initExtensions(this, 'layerInit', LeafletGeowiki.extensions, done)
+      (done) => initModules(this, 'layerInit', LeafletGeowiki.modules, done)
     ], (err) => {
       if (err) { return console.error(err) }
       this.init()
@@ -374,10 +374,10 @@ class LeafletGeowiki {
 }
 
 LeafletGeowiki.defaultValues = defaultValues
-LeafletGeowiki.extensions = []
+LeafletGeowiki.modules = []
 
-LeafletGeowiki.addExtension = (extension) => {
-  LeafletGeowiki.extensions.push(extension)
+LeafletGeowiki.addModule = (module) => {
+  LeafletGeowiki.modules.push(module)
 }
 
 ee(LeafletGeowiki.prototype)

@@ -43,6 +43,6 @@ The following options are available:
 * info: pass an object with { dom: domNode }. The map info will be rendered into this domNode.
 
 Static Methods:
-* addExtension({ ... }): Add an extension to LeafletGeowiki. The following options can be passed:
+* addModule({ ... }): Add a module to LeafletGeowiki. The following options can be passed:
   * layerInit(layer, callback): a function which will be called when a LeafletGeowiki layer is initialized (you could hook to events in this function).
 * setOption(option, value): set the specified option to the specified value. The 'updateOptions' event (with: key) will be emitted.
