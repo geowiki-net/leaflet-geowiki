@@ -8,6 +8,7 @@ const modules = [
   require('./src/markers'),
   require('./src/panes'),
   require('./src/wikidata'),
+  require('./src/language'),
   require('./src/tagTranslations'),
   require('geowiki-module-opening-hours'),
 ]

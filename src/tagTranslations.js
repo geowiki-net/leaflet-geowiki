@@ -65,6 +65,7 @@ function tagTranslationsTransList (key, values) {
 
 module.exports = {
   id: 'tagTranslations',
+  requireModules: ['language'],
   trans: tagTranslationsTrans,
   isTranslated: tagTranslationsIsTranslated,
   setTagLanguage: function (lang) {

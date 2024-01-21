@@ -6,7 +6,6 @@ const isTrue = require('overpass-layer/src/isTrue')
 const ee = require('event-emitter')
 const yaml = require('js-yaml')
 const semver = require('semver')
-const modulekitLang = require('modulekit-lang')
 const async = {
   each: require('async/each'),
   parallel: require('async/parallel')
@@ -89,7 +88,6 @@ class LeafletGeowiki {
 
   initModules () {
     async.parallel([
-      (done) => modulekitLang.set(this.options.language, {}, done),
       (done) => initModules(this, 'layerInit', LeafletGeowiki.modules, done)
     ], (err) => {
       if (err) { return console.error(err) }
