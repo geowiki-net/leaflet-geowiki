@@ -36,6 +36,7 @@
     "openstreetmap-tag-translations": "github:plepe/openstreetmap-tag-translations",
     "overpass-layer": "^3.6.0-rc0",
     "query-string": "^8.1.0",
+    "semver": "^7.5.4",
     "sprintf-js": "^1.1.2"
   },
   "devDependencies": {

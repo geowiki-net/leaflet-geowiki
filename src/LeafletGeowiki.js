@@ -5,6 +5,7 @@ const OverpassFrontend = require('overpass-frontend')
 const isTrue = require('overpass-layer/src/isTrue')
 const ee = require('event-emitter')
 const yaml = require('js-yaml')
+const semver = require('semver')
 const modulekitLang = require('modulekit-lang')
 const async = {
   each: require('async/each'),
@@ -112,6 +113,7 @@ class LeafletGeowiki {
         .then(body => {
           this.source = body
           this.data = yaml.load(body)
+          this.checkModules()
           callback()
         })
         .catch(err => {
@@ -122,6 +124,33 @@ class LeafletGeowiki {
     }
 
     callback()
+  }
+
+  checkModules () {
+    if (!this.data.modules) {
+      return
+    }
+
+    const errors = Object.entries(this.data.modules)
+      .map(([moduleId, versionRange]) => {
+        const matchingModules = LeafletGeowiki.modules.filter(module => module.id === moduleId)
+        if (!matchingModules.length) {
+          return 'Style requires module "' + moduleId + '", missing'
+        }
+
+        const versionChecks = matchingModules
+          .map(module => !semver.satisfies(module.version, '' + (versionRange ?? '')))
+          .filter(v => v)
+
+        if (versionChecks.length) {
+          return 'Style requires module "' + moduleId + ':' + versionRange + '", only ' + matchingModules[0].version + ' found'
+        }
+      })
+      .filter(v => v)
+
+    if (errors.length) {
+      console.error(errors.join('\n'))
+    }
   }
 
   init () {
