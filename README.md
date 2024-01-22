@@ -33,6 +33,11 @@ feature:
     {{ tagTrans('amenity', tags.amenity) }}
 ```
 
+## Development
+If you don't need all features, you can remove modules by editing the [./modules.js](modules.js) file. You have to re-compile the code by running `npm run build`.
+
+Use `npm run watch` to compile code with debug information.
+
 ## API
 ### constructor LeafletGeowiki(options)
 The following options are available:
