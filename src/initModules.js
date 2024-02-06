@@ -1,22 +1,27 @@
 import each from 'async/each'
 
-module.exports = function initModules (object, func, modules, callback, doneModules = []) {
-  if (Array.isArray(modules)) {
-    const _e = modules
-    modules = {}
-    _e.forEach((e, i) => {
-      modules[e.id ?? i] = e
-    })
+function getModule (modules, id) {
+  if (typeof id === 'string') {
+    const matching = modules.filter(m => m.id === id)
+    return matching.length ? matching[0] : null
   }
 
-  const loadableModules = Object.entries(modules)
-    .filter(([id, module]) => {
+  return id
+}
+
+function moduleId (module) {
+  return module.id ?? module.name
+}
+
+module.exports = function initModules (object, func, modules, callback, doneModules = []) {
+  const loadableModules = modules
+    .filter(module => {
       if (doneModules.includes(module)) {
         return false
       }
 
       if (module.requireModules && module.requireModules.length) {
-        if (!module.requireModules.filter(rId => doneModules.includes(modules[rId])).length) {
+        if (!module.requireModules.filter(req => doneModules.includes(getModule(modules, req))).length) {
           return false
         }
       }
@@ -25,22 +30,21 @@ module.exports = function initModules (object, func, modules, callback, doneModu
     })
 
   if (!loadableModules.length) {
-    const notLoadedModules = Object.keys(modules)
-      .filter(moduleId => !doneModules.includes(modules[moduleId]))
+    const notLoadedModules = modules
+      .filter(module => !doneModules.includes(module))
 
     if (notLoadedModules.length) {
       return callback(new Error('Some modules not loaded due to missing dependencies: ' +
-        notLoadedModules.map(moduleId => {
-          const module = modules[moduleId]
-
-          return moduleId + ' (' + module.requireModules.filter(rId => !doneModules.includes(modules[rId])) + ')'
+        notLoadedModules.map(module => {
+          const missing = module.requireModules.filter(req => !doneModules.includes(getModule(modules, req)))
+          return moduleId(module) + ' (' + missing.map(m => moduleId(m)).join(', ') + ')'
         }).join(', ')))
     }
 
     return callback()
   }
 
-  each(loadableModules, ([id, module], done) => {
+  each(loadableModules, (module, done) => {
     if (!module[func]) {
       doneModules.push(module)
       return done()
