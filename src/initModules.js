@@ -14,6 +14,8 @@ function moduleId (module) {
 }
 
 module.exports = function initModules (object, func, modules, callback, doneModules = []) {
+  updateRequireModules(modules)
+
   const loadableModules = modules
     .filter(module => {
       if (doneModules.includes(module)) {
@@ -74,4 +76,27 @@ module.exports = function initModules (object, func, modules, callback, doneModu
     if (err) { return callback(err) }
     initModules(object, func, modules, callback, doneModules)
   })
+}
+
+function updateRequireModules (modules) {
+  let change = false
+
+  modules.forEach(module => {
+    if (!module.requireModules) {
+      return
+    }
+
+    module.requireModules.forEach(reqModule => {
+      if (['object', 'function'].includes(typeof reqModule)) {
+        if (!modules.includes(reqModule)) {
+          modules.push(reqModule)
+          change = true
+        }
+      }
+    })
+  })
+
+  if (change) {
+    updateRequireModules(modules)
+  }
 }
