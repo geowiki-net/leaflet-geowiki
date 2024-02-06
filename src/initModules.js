@@ -13,7 +13,14 @@ function moduleId (module) {
   return module.id ?? module.name
 }
 
-module.exports = function initModules (object, func, modules, callback, doneModules = []) {
+/**
+ * check that all required modules are loaded, and call the init-fun on all modules.
+ * @param {object} object The object which will be passed to the init-functions of all modules.
+ * @param {string} func Name of the init-function on the modules.
+ * @param {string[]|object[]|function[]} modules List of modules to load.
+ * @param {function} callback Callback function which will called when all modules have been initialized. If an error occured, it will be passed as 1st argument.
+ */
+function initModules (object, func, modules, callback, doneModules = []) {
   updateRequireModules(modules)
 
   const loadableModules = modules
@@ -100,3 +107,5 @@ function updateRequireModules (modules) {
     updateRequireModules(modules)
   }
 }
+
+module.exports = initModules
