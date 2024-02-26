@@ -72,7 +72,7 @@ function initModules (object, func, modules, callback, doneModules = []) {
 
     module[func](object, (err) => {
       if (err) {
-        console.log('error init', id, err)
+        console.log('error init', module.id, err)
         return done(err)
       }
 
