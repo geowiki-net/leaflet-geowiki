@@ -4,8 +4,13 @@ const osmFormatDate = require('openstreetmap-date-format')
 const natsort = require('natsort').default
 const md5 = require('md5')
 const yaml = require('js-yaml')
+const parseLength = require('overpass-layer/src/parseLength')
 
 const md5cache = {}
+
+Twig.extendFilter('lengthToPx', function (value, param) {
+  return parseLength(value, param.length && param[0] && 'metersPerPixel' ? param[0].metersPerPixel : 1)
+})
 
 Twig.extendFunction('tagsPrefix', function (tags, prefix) {
   const ret = {}
