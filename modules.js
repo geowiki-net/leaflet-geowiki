@@ -17,6 +17,9 @@ module.exports = [
   // Language support
   require('./src/language'),
 
+  // Miscellaneous twig functions
+  require('./src/twigFunctions'),
+
   // Translate tag values (with openstreetmap-tag-translations)
   require('./src/tagTranslations'),
 
