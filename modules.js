@@ -23,6 +23,9 @@ module.exports = [
   // Translate tag values (with openstreetmap-tag-translations)
   require('./src/tagTranslations'),
 
+  // Enable support for color functions
+  require('geowiki-module-color'),
+
   // Enable support for parsing opening_hours tags
   require('geowiki-module-opening-hours'),
 

@@ -1,5 +1,4 @@
 const Twig = require('twig')
-const colorInterpolate = require('color-interpolate')
 const osmParseDate = require('openstreetmap-date-parser')
 const osmFormatDate = require('openstreetmap-date-format')
 const natsort = require('natsort').default
@@ -54,10 +53,6 @@ Twig.extendFilter('unique', function (values, options) {
     return self.indexOf(value) === index
   }
   return values.filter(onlyUnique)
-})
-Twig.extendFunction('colorInterpolate', function (map, value) {
-  const colormap = colorInterpolate(map)
-  return colormap(value)
 })
 Twig.extendFilter('osmParseDate', function (value) {
   return osmParseDate(value)
