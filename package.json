@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "browserify -g browserify-css dist.js -p esmify -o dist/leaflet-geowiki.js",
-    "build-translations": "build_dist_node",
+    "build-translations": "modulekit-lang-build-dist",
     "prepare": "npm run build && npm run build-translations",
     "lint": "standard --fix *.js src/*.js",
     "watch": "watchify -g browserify-css --debug dist.js -p esmify -o dist/leaflet-geowiki.js -v",
