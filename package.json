@@ -24,6 +24,7 @@
   "homepage": "https://github.com/plepe/leaflet-geowiki#readme",
   "dependencies": {
     "browserify-css": "^0.15.0",
+    "geowiki-lib-modules": "github:geowiki-net/geowiki-lib-modules",
     "geowiki-module-color": "github:geowiki-net/geowiki-module-color",
     "geowiki-module-opening-hours": "github:geowiki-net/geowiki-module-opening-hours",
     "js-yaml": "^4.1.0",
