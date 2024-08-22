@@ -319,7 +319,7 @@ class LeafletGeowiki {
             const preferredZoom = data.data.preferredZoom || 16
             let maxZoom = this.map.getZoom()
             maxZoom = maxZoom > preferredZoom ? maxZoom : preferredZoom
-            this.map.flyToBounds(data.object.bounds.toLeaflet({ shiftWorld: this.layer.getShiftWorld() }), {
+            this.map.flyToBounds(data.object.bounds.toLeaflet({ shiftWorld: l.getShiftWorld() }), {
               maxZoom
             })
           }
