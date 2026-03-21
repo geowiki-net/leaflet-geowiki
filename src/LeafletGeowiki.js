@@ -1,8 +1,8 @@
 /* eslint camelcase: 0 */
 import { initModules } from '@geowiki-net/geowiki-lib-modules'
-const OverpassLayer = require('overpass-layer')
+const OverpassLayer = require('@geowiki-net/leaflet-geowiki-layer')
 const GeowikiAPI = require('@geowiki-net/geowiki-api')
-const isTrue = require('overpass-layer/src/isTrue')
+const isTrue = require('@geowiki-net/leaflet-geowiki-layer/src/isTrue')
 const ee = require('event-emitter')
 const yaml = require('js-yaml')
 const semver = require('semver')

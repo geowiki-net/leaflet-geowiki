@@ -1,4 +1,4 @@
-import OverpassLayer from 'overpass-layer'
+import OverpassLayer from '@geowiki-net/leaflet-geowiki-layer'
 
 module.exports = {
   id: 'list',
