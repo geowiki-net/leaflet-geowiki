@@ -1,5 +1,5 @@
 /* eslint camelcase: 0 */
-import initModules from 'geowiki-lib-modules'
+import { initModules } from '@geowiki-net/geowiki-lib-modules'
 const OverpassLayer = require('overpass-layer')
 const GeowikiAPI = require('@geowiki-net/geowiki-api')
 const isTrue = require('overpass-layer/src/isTrue')
