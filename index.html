@@ -29,11 +29,11 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // create link to overpass database (this could be a file too, e.g. data.osm or data.osm.bz2)
-const overpassFrontend = new OverpassFrontend('//overpass-api.de/api/interpreter')
+const geowikiAPI = new GeowikiAPI('data.osm')//'//overpass-api.de/api/interpreter')
 
 // Initialize Geowiki viewer
 var geowiki = new LeafletGeowiki({
-  overpassFrontend,
+  geowikiAPI,
   styleFile: 'example.yaml',
   // show map info (if available)
   info: { dom: document.getElementById('info') },

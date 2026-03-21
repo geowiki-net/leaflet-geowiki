@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/plepe/leaflet-geowiki#readme",
   "dependencies": {
+    "@geowiki-net/geowiki-api": "^4.0.0-beta.2",
     "browserify-css": "^0.15.0",
     "geowiki-lib-modules": "github:geowiki-net/geowiki-lib-modules",
     "geowiki-module-color": "github:geowiki-net/geowiki-module-color",
@@ -35,7 +36,6 @@
     "openstreetmap-date-format": "^0.4.0",
     "openstreetmap-date-parser": "^0.1.2",
     "openstreetmap-tag-translations": "github:plepe/openstreetmap-tag-translations",
-    "overpass-layer": "^3.6.0-rc0",
     "query-string": "^8.1.0",
     "semver": "^7.5.4",
     "sprintf-js": "^1.1.2"
@@ -44,7 +44,6 @@
     "browserify": "^17.0.0",
     "esmify": "^2.1.1",
     "leaflet": "^1.9.3",
-    "overpass-frontend": "^3.1.2",
     "standard": "^17.1.0",
     "watchify": "^4.0.0"
   },

@@ -1,7 +1,7 @@
 /* eslint camelcase: 0 */
 import initModules from 'geowiki-lib-modules'
 const OverpassLayer = require('overpass-layer')
-const OverpassFrontend = require('overpass-frontend')
+const GeowikiAPI = require('@geowiki-net/geowiki-api')
 const isTrue = require('overpass-layer/src/isTrue')
 const ee = require('event-emitter')
 const yaml = require('js-yaml')
@@ -59,12 +59,21 @@ const defaultValues = {
 
 class LeafletGeowiki {
   constructor (options) {
-    if (!options.overpassFrontend) {
-      if (!global.overpassFrontend) {
-        global.overpassFrontend = new OverpassFrontend('//overpass-api.de/api/interpreter')
-      }
+    if (options.overpassFrontend) {
+      options.geowikiAPI = options.overpassFrontend
+    }
 
-      options.overpassFrontend = global.overpassFrontend
+    if (!options.geowikiAPI) {
+      if (!global.geowikiAPI) {
+        if (global.overpassFrontend) {
+          options.geowikiAPI = global.overpassFrontend
+        } else {
+          global.geowikiAPI = new GeowikiAPI('//overpass-api.de/api/interpreter')
+          options.geowikiAPI = global.geowikiAPI
+        }
+      } else {
+        options.geowikiAPI = global.geowikiAPI
+      }
     }
 
     this.options = options
@@ -218,7 +227,7 @@ class LeafletGeowiki {
     data.styleNoBindPopup = ['selected']
     data.stylesNoAutoShow = ['selected']
     data.updateAssets = this.updateAssets.bind(this)
-    data.overpassFrontend = this.options.overpassFrontend
+    data.geowikiAPI = this.options.geowikiAPI
 
     const layer = new OverpassLayer(data)
     this.layers.push(layer)

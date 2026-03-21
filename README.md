@@ -12,11 +12,11 @@ Embed in JS code:
 var map = L.map('map')
 
 // Optionally: connect to a database. This can be a Overpass API URL, a .osm or .osm.bz2 file
-var database = new OverpassFrontend('file.osm')
+var database = new GeowikiAPI('file.osm')
 
 // Initialize Geowiki viewer
 var geowiki = new LeafletGeowiki({
-  overpassFrontend: database,
+  geowikiAPI: database,
   styleFile: 'file.yaml'
 }).addTo(map)
 ```
@@ -41,7 +41,7 @@ Use `npm run watch` to compile code with debug information.
 ## API
 ### constructor LeafletGeowiki(options)
 The following options are available:
-* overpassFrontend: a OverpassFrontend object. If not set, the global 'overpassFrontend' variable will be used. If this is also not defined, a connection to the default Overpass API server will be created, which will be re-used by other layers.
+* geowikiAPI: a GeowikiAPI object. If not set, the global 'geowikiAPI' (or as a compatibility fallback, 'overpassFrontend') variable will be used. If this is also not defined, a connection to the default Overpass API server will be created, which will be re-used by other layers.
 * language: The language to use, default: null (auto-detect).
 * style: style definition as JS object (if neither 'style' nor 'styleFile' are defined, uses 'nwr' as query)
 * styleFile: loads the style from the specified file (.json or .yaml)
