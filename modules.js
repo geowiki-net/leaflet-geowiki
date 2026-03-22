@@ -18,7 +18,7 @@ module.exports = [
   require('./src/language'),
 
   // Miscellaneous twig functions
-  require('./src/twigFunctions'),
+  require('@geowiki-net/geowiki-twig-functions'),
 
   // Translate tag values (with openstreetmap-tag-translations)
   require('./src/tagTranslations'),

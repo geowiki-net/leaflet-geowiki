@@ -25,6 +25,7 @@
   "dependencies": {
     "@geowiki-net/geowiki-api": "^4.0.0-beta.2",
     "@geowiki-net/geowiki-lib-modules": "github:geowiki-net/geowiki-lib-modules",
+    "@geowiki-net/geowiki-twig-functions": "github:geowiki-net/geowiki-twig-functions",
     "@geowiki-net/leaflet-geowiki-layer": "github:geowiki-net/leaflet-geowiki-layer#devel-4",
     "browserify-css": "^0.15.0",
     "geowiki-module-color": "github:geowiki-net/geowiki-module-color",
