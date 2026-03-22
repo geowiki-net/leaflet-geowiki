@@ -113,6 +113,28 @@ Twig.extendFilter('yaml', function (value, param) {
   return yaml.dump(value, options)
 })
 
+Twig.extendFilter('is_area', function (value) {
+  if (!value) { return null }
+
+  if (typeof value === 'string' || value.constructor.name === 'String') {
+    value = JSON.parse(value)
+  }
+
+  if (value && value.type === 'Feature') {
+    value = value.geometry
+  }
+  else if (value && value.type === 'FeatureCollection') {
+    return !!value.features
+      .map(f => f.geometry && ['Polygon', 'MultiPolygon', 'Point'].includes(value.type))
+      .filter(v => v)
+      .length
+  }
+
+  if (value && value.type) {
+    return ['Polygon', 'MultiPolygon', 'Point'].includes(value.type)
+  }
+})
+
 function twigClear (value) {
   if (value === null || typeof value !== 'object') {
     return value
