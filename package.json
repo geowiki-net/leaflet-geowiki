@@ -24,6 +24,7 @@
   "homepage": "https://github.com/plepe/leaflet-geowiki#readme",
   "dependencies": {
     "@geowiki-net/geowiki-api": "^4.0.0-beta.2",
+    "@geowiki-net/geowiki-lib-app": "github:geowiki-net/geowiki-lib-app",
     "@geowiki-net/geowiki-lib-modules": "github:geowiki-net/geowiki-lib-modules",
     "@geowiki-net/geowiki-twig-functions": "github:geowiki-net/geowiki-twig-functions",
     "@geowiki-net/leaflet-geowiki-layer": "github:geowiki-net/leaflet-geowiki-layer#devel-4",

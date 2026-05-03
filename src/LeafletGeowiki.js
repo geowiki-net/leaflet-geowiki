@@ -2,6 +2,7 @@
 import { initModules } from '@geowiki-net/geowiki-lib-modules'
 const OverpassLayer = require('@geowiki-net/leaflet-geowiki-layer')
 const GeowikiAPI = require('@geowiki-net/geowiki-api')
+const App = require('@geowiki-net/geowiki-lib-app')
 const isTrue = require('@geowiki-net/leaflet-geowiki-layer/src/isTrue')
 const ee = require('event-emitter')
 const yaml = require('js-yaml')
@@ -56,6 +57,8 @@ const defaultValues = {
   queryOptions: {
   }
 }
+
+let app
 
 class LeafletGeowiki {
   constructor (options) {
@@ -414,4 +417,11 @@ LeafletGeowiki.addModule = (module) => {
 
 ee(LeafletGeowiki.prototype)
 
+LeafletGeowiki.id = 'leaflet-geowiki'
+LeafletGeowiki.appInit = (_app) => {
+  app = _app
+}
+LeafletGeowiki.id = 'leaflet-geowiki'
+
 module.exports = LeafletGeowiki
+App.addModule(LeafletGeowiki)
