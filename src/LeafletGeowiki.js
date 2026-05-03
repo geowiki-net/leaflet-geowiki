@@ -62,6 +62,10 @@ let app
 
 class LeafletGeowiki {
   constructor (options) {
+    if (app) {
+      app.emit('leaflet-geowiki-create', this)
+    }
+
     if (options.overpassFrontend) {
       options.geowikiAPI = options.overpassFrontend
     }
