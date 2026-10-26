@@ -265,6 +265,7 @@ class LeafletGeowiki {
     layer.on('add', (ob, data) => this.emit('add', ob, data, layer))
     layer.on('remove', (ob, data) => this.emit('remove', ob, data, layer))
     layer.on('zoomChange', (ob, data) => this.emit('zoomChange', ob, data, layer))
+    layer.on('globalTwigData', (data) => this.emit('globalTwigData', data, layer))
     layer.on('twigData', (ob, data, result) => this.emit('twigData', ob, data, result, layer))
   }
 
