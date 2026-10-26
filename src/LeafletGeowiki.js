@@ -236,6 +236,10 @@ class LeafletGeowiki {
     data.updateAssets = this.updateAssets.bind(this)
     data.geowikiAPI = this.options.geowikiAPI
 
+    if ('queryOptions' in this.options) {
+      data.queryOptions = this.options.queryOptions
+    }
+
     const layer = new OverpassLayer(data)
     this.layers.push(layer)
 
